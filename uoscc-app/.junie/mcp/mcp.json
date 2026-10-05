@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/usr/bin/php",
+            "args": [
+                "/home/pablofranca/Documents/Dax Code/projeto_redcam/uoscc-app/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
