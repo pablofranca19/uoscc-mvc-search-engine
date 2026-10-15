@@ -5,7 +5,7 @@
     $statusInscricao = \App\ActivityRegistration::status($evento);
 @endphp
 <article class="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-    <div class="relative h-40 overflow-hidden bg-gradient-to-br from-uoscc-primary via-emerald-500 to-uoscc-dark p-6 text-white">
+    <div class="relative min-h-40 overflow-hidden bg-gradient-to-br from-uoscc-primary via-emerald-500 to-uoscc-dark p-6 text-white">
         <div class="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/10"></div>
         <div class="relative flex flex-wrap gap-2">
             <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-uoscc-dark">{{ ($evento['natureza'] ?? 'evento') === 'projeto' ? 'Projeto' : 'Evento' }}</span>
@@ -26,9 +26,9 @@
             </span>
             <p class="text-xs text-slate-500">Prazo: {{ \Carbon\Carbon::parse($evento['prazo_inscricao'])->format('d/m/Y') }}</p>
         </div>
-        <div class="mt-auto flex items-center justify-between gap-4 pt-6">
+        <div class="mt-auto flex flex-col gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
             <span class="text-xs font-semibold {{ $restantes <= 10 ? 'text-amber-600' : 'text-slate-500' }}">{{ $restantes }} vagas restantes</span>
-            <a href="{{ route('eventos.show', $evento['id']) }}" class="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-uoscc-dark">Ver detalhes</a>
+            <a href="{{ route('eventos.show', $evento['id']) }}" class="rounded-xl bg-slate-900 px-4 py-2.5 text-center text-sm font-bold text-white transition hover:bg-uoscc-dark">Ver detalhes</a>
         </div>
     </div>
 </article>

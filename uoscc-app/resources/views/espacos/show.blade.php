@@ -39,7 +39,7 @@
             @foreach(['nome' => ['Nome completo', 'text', 120], 'email' => ['E-mail', 'email', 254], 'data' => ['Data desejada', 'date', null]] as $field => [$label, $type, $max])
                 <div>
                     <label class="label" for="reservation-{{ $field }}">{{ $label }} <span class="font-normal">(obrigatório)</span></label>
-                    <input id="reservation-{{ $field }}" class="input" name="{{ $field }}" type="{{ $type }}" value="{{ old($field) }}" required @if($max) maxlength="{{ $max }}" @endif @if($field === 'data') min="{{ \Illuminate\Support\Carbon::now('America/Bahia')->toDateString() }}" @else autocomplete="{{ $field === 'nome' ? 'name' : 'email' }}" @endif aria-invalid="{{ $errors->has($field) ? 'true' : 'false' }}" @if($errors->has($field)) aria-describedby="reservation-{{ $field }}-error" @endif>
+                    <input id="reservation-{{ $field }}" class="input" name="{{ $field }}" type="{{ $type }}" value="{{ old($field) }}" required @if($max) maxlength="{{ $max }}" @endif @if($field === 'nome') minlength="3" @endif @if($field === 'data') min="{{ \Illuminate\Support\Carbon::now('America/Bahia')->toDateString() }}" @else autocomplete="{{ $field === 'nome' ? 'name' : 'email' }}" @endif aria-invalid="{{ $errors->has($field) ? 'true' : 'false' }}" @if($errors->has($field)) aria-describedby="reservation-{{ $field }}-error" @endif>
                     @error($field)<p id="reservation-{{ $field }}-error" class="mt-2 text-sm text-red-700">{{ $message }}</p>@enderror
                 </div>
             @endforeach

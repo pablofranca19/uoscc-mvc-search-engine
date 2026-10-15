@@ -52,7 +52,7 @@
                 @foreach(['nome' => ['Nome completo', 'text', 120, 'name'], 'email' => ['E-mail', 'email', 254, 'email']] as $field => [$label, $type, $max, $autocomplete])
                     <div>
                         <label class="label" for="registration-{{ $field }}">{{ $label }} <span class="font-normal">(obrigatório)</span></label>
-                        <input id="registration-{{ $field }}" class="input" type="{{ $type }}" name="{{ $field }}" value="{{ old($field) }}" maxlength="{{ $max }}" autocomplete="{{ $autocomplete }}" required aria-invalid="{{ $errors->has($field) ? 'true' : 'false' }}" @if($errors->has($field)) aria-describedby="registration-{{ $field }}-error" @endif>
+                        <input id="registration-{{ $field }}" class="input" type="{{ $type }}" name="{{ $field }}" value="{{ old($field) }}" maxlength="{{ $max }}" @if($field === 'nome') minlength="3" @endif autocomplete="{{ $autocomplete }}" required aria-invalid="{{ $errors->has($field) ? 'true' : 'false' }}" @if($errors->has($field)) aria-describedby="registration-{{ $field }}-error" @endif>
                         @error($field)<p id="registration-{{ $field }}-error" class="mt-2 text-sm text-red-700">{{ $message }}</p>@enderror
                     </div>
                 @endforeach
