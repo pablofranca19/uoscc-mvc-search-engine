@@ -8,14 +8,14 @@
             </span>
         </a>
 
-        <button id="menu-button" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 md:hidden" aria-controls="main-menu" aria-expanded="false" aria-label="Abrir menu">
+        <button id="menu-button" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 lg:hidden" aria-controls="main-menu" aria-expanded="false" aria-label="Abrir menu">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
 
-        <nav id="main-menu" class="absolute left-0 right-0 top-full hidden border-b border-emerald-100 bg-white p-4 shadow-lg md:static md:block md:border-0 md:bg-transparent md:p-0 md:shadow-none">
-            <ul class="flex flex-col gap-1 md:flex-row md:items-center md:gap-2">
+        <nav id="main-menu" class="absolute left-0 right-0 top-full hidden border-b border-emerald-100 bg-white p-4 shadow-lg lg:static lg:block lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+            <ul class="flex flex-col gap-1 lg:flex-row lg:items-center lg:gap-2">
                 @foreach([
-                    ['home','Início'], ['organizacoes','Organizações'], ['eventos','Eventos'], ['espacos','Espaços']
+                    ['home','Início'], ['organizacoes','Organizações'], ['eventos','Eventos'], ['espacos','Espaços'], ['apoiadores','Apoiadores']
                 ] as [$route, $label])
                     <li>
                         <a href="{{ route($route) }}" @class([
@@ -27,7 +27,7 @@
                         </a>
                     </li>
                 @endforeach
-                <li class="pt-2 md:pl-2 md:pt-0">
+                <li class="pt-2 lg:pl-2 lg:pt-0">
                     <a href="{{ route('eventos') }}" class="block rounded-xl bg-uoscc-primary px-5 py-2.5 text-center text-sm font-bold text-white shadow-lg shadow-emerald-900/10 transition hover:bg-uoscc-dark">Participar</a>
                 </li>
             </ul>

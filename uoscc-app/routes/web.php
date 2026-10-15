@@ -30,16 +30,23 @@ $organizacoes = [
     4 => ['id' => 4, 'nome' => 'Movimento Jovem UOSCC', 'sigla' => 'MJU', 'area' => 'Juventude e cultura', 'regiao' => 'Gleba A', 'descricao' => 'Incentiva protagonismo juvenil, cultura e participação cidadã.', 'email' => 'contato@movimentojovem.org.br', 'telefone' => '(71) 3000-1004'],
 ];
 
+foreach ($organizacoes as &$organizacao) {
+    $organizacao['demonstrativa'] = true;
+    $organizacao['redes_sociais'] = [];
+}
+unset($organizacao);
+
 $espacos = [
     1 => ['id' => 1, 'nome' => 'Espaço Conecta', 'organizacao' => 'Conecta Comunidade', 'capacidade' => 40, 'regiao' => 'Orla', 'estrutura' => ['Wi-Fi', 'Projetor', 'Ar-condicionado', 'Mesas e cadeiras'], 'descricao' => 'Sala multiuso para cursos, reuniões, oficinas e pequenas apresentações.'],
     2 => ['id' => 2, 'nome' => 'Salão Viver Melhor', 'organizacao' => 'Instituto Viver Melhor', 'capacidade' => 120, 'regiao' => 'Centro', 'estrutura' => ['Palco', 'Som', 'Projetor', 'Banheiros'], 'descricao' => 'Salão amplo para eventos comunitários, palestras e atividades coletivas.'],
     3 => ['id' => 3, 'nome' => 'Casa Verde', 'organizacao' => 'Rede Verde Camaçari', 'capacidade' => 50, 'regiao' => 'Parque Verde', 'estrutura' => ['Área externa', 'Copa', 'Wi-Fi', 'Mesas'], 'descricao' => 'Espaço integrado à área verde, ideal para encontros, oficinas e atividades ambientais.'],
 ];
 
-Route::get('/', function () use ($eventos, $organizacoes) {
+Route::get('/', function () use ($eventos, $organizacoes, $espacos) {
     return view('home', [
         'eventos' => $eventos,
         'organizacoes' => $organizacoes,
+        'espacos' => $espacos,
     ]);
 })->name('home');
 
@@ -48,6 +55,8 @@ Route::get('/eventos', function () use ($eventos) {
 
     return view('eventos.index', ['eventos' => $filtrados]);
 })->name('eventos');
+
+Route::view('/apoiadores', 'apoiadores')->name('apoiadores');
 
 Route::get('/eventos/{id}', function (int $id) use ($eventos) {
     abort_unless(isset($eventos[$id]), 404);
@@ -84,12 +93,13 @@ Route::get('/organizacoes', function () use ($organizacoes) {
     ]);
 })->name('organizacoes');
 
-Route::get('/organizacoes/{id}', function (int $id) use ($organizacoes, $eventos) {
+Route::get('/organizacoes/{id}', function (int $id) use ($organizacoes, $eventos, $espacos) {
     abort_unless(isset($organizacoes[$id]), 404);
     $organizacao = $organizacoes[$id];
     $eventosOrganizacao = collect($eventos)->where('organizacao', $organizacao['nome'])->values()->all();
+    $espacosOrganizacao = collect($espacos)->where('organizacao', $organizacao['nome'])->values()->all();
 
-    return view('organizacoes.show', compact('organizacao', 'eventosOrganizacao'));
+    return view('organizacoes.show', compact('organizacao', 'eventosOrganizacao', 'espacosOrganizacao'));
 })->name('organizacoes.show');
 
 Route::get('/espacos', function () use ($espacos) {

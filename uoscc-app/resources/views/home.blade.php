@@ -13,15 +13,16 @@
                 <a href="{{ route('organizacoes') }}" class="rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-center text-sm font-bold text-white hover:bg-white/10">Conhecer organizações</a>
             </div>
         </div>
-        <div class="hidden lg:block">
+        <div>
             <div class="rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur">
                 <div class="rounded-3xl bg-gradient-to-br from-uoscc-primary to-uoscc-dark p-8 text-white">
-                    <p class="text-sm font-bold text-emerald-100">UOSCC em movimento</p>
+                    <p class="text-sm font-bold text-emerald-100">Explore a rede neste protótipo</p>
+                    <p class="mt-2 text-xs leading-5 text-emerald-100">Dados demonstrativos, calculados a partir do conteúdo disponível.</p>
                     <div class="mt-10 grid grid-cols-2 gap-4">
-                        <div class="rounded-2xl bg-white/10 p-5"><strong class="text-3xl font-black">06</strong><p class="mt-1 text-xs text-emerald-100">organizações</p></div>
-                        <div class="rounded-2xl bg-white/10 p-5"><strong class="text-3xl font-black">24+</strong><p class="mt-1 text-xs text-emerald-100">projetos ativos</p></div>
-                        <div class="rounded-2xl bg-white/10 p-5"><strong class="text-3xl font-black">18</strong><p class="mt-1 text-xs text-emerald-100">eventos no mês</p></div>
-                        <div class="rounded-2xl bg-white/10 p-5"><strong class="text-3xl font-black">12</strong><p class="mt-1 text-xs text-emerald-100">espaços disponíveis</p></div>
+                        <div class="rounded-2xl bg-white/10 p-5"><strong class="text-3xl font-black">{{ count($organizacoes) }}</strong><p class="mt-1 text-xs text-emerald-100">organizações no catálogo</p></div>
+                        <div class="rounded-2xl bg-white/10 p-5"><strong class="text-3xl font-black">{{ count(array_filter($eventos, static fn (array $atividade): bool => ($atividade['natureza'] ?? 'evento') === 'projeto')) }}</strong><p class="mt-1 text-xs text-emerald-100">projetos no catálogo</p></div>
+                        <div class="rounded-2xl bg-white/10 p-5"><strong class="text-3xl font-black">{{ count(array_filter($eventos, static fn (array $atividade): bool => ($atividade['natureza'] ?? 'evento') === 'evento')) }}</strong><p class="mt-1 text-xs text-emerald-100">eventos no catálogo</p></div>
+                        <div class="rounded-2xl bg-white/10 p-5"><strong class="text-3xl font-black">{{ count($espacos) }}</strong><p class="mt-1 text-xs text-emerald-100">espaços no catálogo</p></div>
                     </div>
                 </div>
             </div>
@@ -31,8 +32,8 @@
 
 <section class="section-shell py-20">
     <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-        <div><p class="eyebrow">Próximas oportunidades</p><h2 class="section-title">Eventos em destaque</h2><p class="section-copy">Participe de ações, oficinas e encontros promovidos pelas organizações.</p></div>
-        <a href="{{ route('eventos') }}" class="font-bold text-uoscc-primary hover:text-uoscc-dark">Ver todos os eventos →</a>
+        <div><p class="eyebrow">Conheça as iniciativas</p><h2 class="section-title">Eventos e projetos em destaque</h2><p class="section-copy">Explore ações, oficinas e encontros promovidos pelas organizações.</p></div>
+        <a href="{{ route('eventos') }}" class="font-bold text-uoscc-primary hover:text-uoscc-dark">Ver eventos e projetos →</a>
     </div>
     <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         @foreach(array_slice($eventos, 0, 3) as $evento)
@@ -44,7 +45,7 @@
 <section class="bg-white py-20">
     <div class="section-shell">
         <div><p class="eyebrow">Quem faz acontecer</p><h2 class="section-title">Organizações da UOSCC</h2><p class="section-copy">Conheça quem está construindo soluções e fortalecendo a comunidade.</p></div>
-        <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @foreach($organizacoes as $organizacao)
                 <x-org-card :organizacao="$organizacao" />
             @endforeach

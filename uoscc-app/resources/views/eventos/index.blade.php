@@ -39,7 +39,13 @@
                     <option value="projeto">Projetos</option>
                 </select>
             </div>
-            <div class="flex items-end">
+            <div class="flex items-center">
+                <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-900" for="activity-registration">
+                    <input id="activity-registration" name="registration" value="aberta" type="checkbox" class="h-5 w-5 accent-emerald-700">
+                    Somente inscrições abertas
+                </label>
+            </div>
+            <div class="flex items-end sm:col-span-2 lg:col-span-3">
                 <button type="reset" class="w-full rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-100">Limpar filtros</button>
             </div>
         </div>
@@ -48,7 +54,7 @@
     <noscript><p>Ative o JavaScript para usar os filtros. Todas as atividades estão listadas abaixo.</p></noscript>
     <div class="mt-5 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         @foreach($eventos as $evento)
-            <div data-activity data-organization="{{ $evento['organizacao'] }}" data-type="{{ $evento['tipo'] }}" data-region="{{ $evento['regiao'] }}" data-date="{{ $evento['data'] }}" data-kind="{{ $evento['natureza'] ?? 'evento' }}" data-search="{{ $evento['titulo'].' '.$evento['organizacao'].' '.$evento['descricao'].' '.$evento['local'].' '.$evento['regiao'].' '.$evento['tipo'] }}">
+            <div data-activity data-registration="{{ \App\ActivityRegistration::status($evento) }}" data-organization="{{ $evento['organizacao'] }}" data-type="{{ $evento['tipo'] }}" data-region="{{ $evento['regiao'] }}" data-date="{{ $evento['data'] }}" data-kind="{{ $evento['natureza'] ?? 'evento' }}" data-search="{{ $evento['titulo'].' '.$evento['organizacao'].' '.$evento['descricao'].' '.$evento['local'].' '.$evento['regiao'].' '.$evento['tipo'] }}">
                 <x-event-card :evento="$evento" />
             </div>
         @endforeach

@@ -10,6 +10,13 @@
 <body class="min-h-screen bg-uoscc-soft text-slate-800 antialiased">
     <x-navbar />
 
+    <div class="border-b border-emerald-100 bg-emerald-50/70">
+        <div class="section-shell flex flex-wrap items-center justify-between gap-2 py-3 text-xs leading-5 text-emerald-900 sm:text-sm">
+            <p><strong>Consulta pública</strong> · Explore eventos, projetos, organizações e espaços sem cadastro.</p>
+            <a href="{{ route('apoiadores') }}" class="font-bold underline underline-offset-4">Acesso de apoiadores: em preparação</a>
+        </div>
+    </div>
+
     <main>
         @if(session('demo'))
             <div class="section-shell pt-6">

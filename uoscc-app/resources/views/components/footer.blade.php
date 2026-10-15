@@ -14,6 +14,7 @@
                 <a class="hover:text-uoscc-primary" href="{{ route('organizacoes') }}">Organizações</a>
                 <a class="hover:text-uoscc-primary" href="{{ route('eventos') }}">Eventos</a>
                 <a class="hover:text-uoscc-primary" href="{{ route('espacos') }}">Espaços</a>
+                <a class="hover:text-uoscc-primary" href="{{ route('apoiadores') }}">Informações para apoiadores</a>
             </div>
         </div>
         <div>
