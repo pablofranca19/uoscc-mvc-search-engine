@@ -64,8 +64,8 @@
         <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 class="text-xl font-black">Contato público</h2>
             <dl class="mt-5 space-y-5 text-sm">
-                <div><dt class="font-bold">E-mail ilustrativo</dt><dd class="mt-1 break-words text-slate-600">{{ $organizacao['email'] ?: 'Ainda não informado' }}</dd></div>
-                <div><dt class="font-bold">Telefone ilustrativo</dt><dd class="mt-1 text-slate-600">{{ $organizacao['telefone'] ?: 'Ainda não informado' }}</dd></div>
+                <div><dt class="font-bold">E-mail oficial</dt><dd class="mt-1 break-words text-slate-600">{{ $organizacao['email'] ? 'A confirmar com a equipe' : 'Ainda não informado' }}</dd></div>
+                <div><dt class="font-bold">Telefone oficial</dt><dd class="mt-1 text-slate-600">{{ $organizacao['telefone'] ? 'A confirmar com a equipe' : 'Ainda não informado' }}</dd></div>
                 <div><dt class="font-bold">Região de atuação</dt><dd class="mt-1 text-slate-600">{{ $organizacao['regiao'] }}</dd></div>
             </dl>
             <h3 class="mt-8 font-bold">Redes sociais</h3>

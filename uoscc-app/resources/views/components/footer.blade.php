@@ -20,8 +20,8 @@
         <div>
             <h3 class="font-bold text-slate-900">Contato</h3>
             <div class="mt-4 space-y-2 text-sm text-slate-500">
-                <p>contato@uoscc.org.br</p>
-                <p>(71) 3000-0000</p>
+                <p>Contato oficial a confirmar com a equipe.</p>
+                <p>Os canais serão publicados após validação.</p>
                 <p>Camaçari — Bahia</p>
             </div>
         </div>
