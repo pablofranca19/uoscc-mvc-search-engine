@@ -36,12 +36,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const menu = document.getElementById('main-menu');
 
     if (button && menu) {
+        const setMenuOpen = (isOpen) => {
+            button.setAttribute('aria-expanded', String(isOpen));
+            button.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+            menu.classList.toggle('hidden', !isOpen);
+        };
+        button.classList.remove('hidden');
+        button.classList.add('grid');
+
         button.addEventListener('click', () => {
-            const isOpen = button.getAttribute('aria-expanded') === 'true';
-            button.setAttribute('aria-expanded', String(!isOpen));
-            menu.classList.toggle('hidden', isOpen);
+            setMenuOpen(button.getAttribute('aria-expanded') !== 'true');
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+                setMenuOpen(false);
+                button.focus();
+            }
+        });
+        document.addEventListener('click', (event) => {
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                setMenuOpen(false);
+            }
+        });
+        menu.addEventListener('click', (event) => {
+            if (event.target.closest('a')) setMenuOpen(false);
+        });
+        window.matchMedia('(min-width: 1024px)').addEventListener('change', (event) => {
+            if (event.matches) setMenuOpen(false);
         });
     }
+
+    document.querySelector('[data-form-errors]')?.focus();
 
     document.querySelectorAll('[data-filter]').forEach((input) => {
         input.addEventListener('input', () => {

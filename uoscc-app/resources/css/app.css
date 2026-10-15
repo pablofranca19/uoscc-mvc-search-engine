@@ -14,6 +14,17 @@
 @layer base {
     body { font-family: var(--font-sans); }
     ::selection { background: #2f9e59; color: white; }
+    :focus-visible { outline: 2px solid #20703f; outline-offset: 4px; }
+    h1, h2, h3, p, a { overflow-wrap: break-word; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
 }
 
 @layer components {

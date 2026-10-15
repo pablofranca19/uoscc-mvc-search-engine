@@ -8,17 +8,17 @@
             </span>
         </a>
 
-        <button id="menu-button" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 lg:hidden" aria-controls="main-menu" aria-expanded="false" aria-label="Abrir menu">
+        <button id="menu-button" type="button" class="hidden h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 lg:hidden" aria-controls="main-menu" aria-expanded="false" aria-label="Abrir menu">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
 
-        <nav id="main-menu" class="absolute left-0 right-0 top-full hidden border-b border-emerald-100 bg-white p-4 shadow-lg lg:static lg:block lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+        <nav id="main-menu" aria-label="Navegação principal" class="absolute left-0 right-0 top-full hidden border-b border-emerald-100 bg-white p-4 shadow-lg lg:static lg:block lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
             <ul class="flex flex-col gap-1 lg:flex-row lg:items-center lg:gap-2">
                 @foreach([
                     ['home','Início'], ['organizacoes','Organizações'], ['eventos','Eventos'], ['espacos','Espaços'], ['apoiadores','Apoiadores']
                 ] as [$route, $label])
                     <li>
-                        <a href="{{ route($route) }}" @class([
+                        <a href="{{ route($route) }}" @if(request()->routeIs($route . '*')) aria-current="page" @endif @class([
                             'block rounded-xl px-4 py-2.5 text-sm font-semibold transition',
                             'bg-emerald-50 text-uoscc-dark' => request()->routeIs($route . '*'),
                             'text-slate-600 hover:bg-slate-50 hover:text-uoscc-dark' => !request()->routeIs($route . '*'),

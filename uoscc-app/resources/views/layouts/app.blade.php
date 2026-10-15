@@ -8,7 +8,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-uoscc-soft text-slate-800 antialiased">
+    <a href="#main-content" class="fixed left-4 top-4 z-[100] -translate-y-[200%] rounded-xl bg-slate-950 px-5 py-3 font-bold text-white focus:translate-y-0">Pular para o conteúdo</a>
     <x-navbar />
+    <noscript>
+        <nav aria-label="Navegação sem JavaScript" class="section-shell flex flex-wrap gap-4 py-4 text-sm font-semibold text-uoscc-dark lg:hidden">
+            @foreach(['home' => 'Início', 'organizacoes' => 'Organizações', 'eventos' => 'Eventos', 'espacos' => 'Espaços', 'apoiadores' => 'Apoiadores'] as $route => $label)
+                <a href="{{ route($route) }}" class="underline underline-offset-4">{{ $label }}</a>
+            @endforeach
+        </nav>
+    </noscript>
 
     <div class="border-b border-emerald-100 bg-emerald-50/70">
         <div class="section-shell flex flex-wrap items-center justify-between gap-2 py-3 text-xs leading-5 text-emerald-900 sm:text-sm">
@@ -17,7 +25,7 @@
         </div>
     </div>
 
-    <main>
+    <main id="main-content" tabindex="-1">
         @if(session('demo'))
             <div class="section-shell pt-6">
                 <div class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-sm leading-6 text-sky-900" role="status">
@@ -28,7 +36,7 @@
         @endif
         @if($errors->any())
             <div class="section-shell pt-6">
-                <div class="rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-900" role="alert">
+                <div class="rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-900" role="alert" tabindex="-1" data-form-errors>
                     <p class="font-bold">Confira as informações antes de continuar:</p>
                     <ul class="mt-2 list-inside list-disc space-y-1">
                         @foreach($errors->all() as $error)

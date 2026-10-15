@@ -6,7 +6,7 @@
     <div class="section-shell relative grid min-h-[560px] items-center gap-12 py-20 lg:grid-cols-[1.1fr_.9fr]">
         <div>
             <span class="inline-flex rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-emerald-300">Conexão · participação · impacto</span>
-            <h1 class="mt-6 max-w-3xl text-5xl font-black tracking-tight text-white sm:text-6xl">Organizações que transformam. <span class="text-emerald-400">Pessoas que participam.</span></h1>
+            <h1 class="mt-6 max-w-3xl text-4xl font-black leading-tight tracking-tight text-white sm:text-6xl">Organizações que transformam. <span class="text-emerald-400">Pessoas que participam.</span></h1>
             <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">Encontre eventos, projetos, organizações e espaços da sociedade civil em um só lugar.</p>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a href="{{ route('eventos') }}" class="rounded-xl bg-uoscc-primary px-6 py-3.5 text-center text-sm font-black text-white shadow-xl shadow-emerald-950/30 hover:bg-uoscc-light">Encontrar eventos</a>
