@@ -2,6 +2,7 @@
 @php
     $data = \Carbon\Carbon::parse($evento['data'])->locale('pt_BR');
     $restantes = max(0, $evento['vagas'] - $evento['inscritos']);
+    $statusInscricao = \App\ActivityRegistration::status($evento);
 @endphp
 <article class="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
     <div class="relative h-40 overflow-hidden bg-gradient-to-br from-uoscc-primary via-emerald-500 to-uoscc-dark p-6 text-white">
@@ -19,6 +20,12 @@
         <p class="text-xs font-bold uppercase tracking-wider text-uoscc-primary">{{ $evento['organizacao'] }}</p>
         <h3 class="mt-2 text-xl font-extrabold tracking-tight text-slate-900">{{ $evento['titulo'] }}</h3>
         <p class="mt-3 line-clamp-3 text-sm leading-6 text-slate-500">{{ $evento['descricao'] }}</p>
+        <div class="mt-4 flex flex-col gap-2">
+            <span class="text-sm font-bold {{ $statusInscricao === 'aberta' ? 'text-emerald-700' : 'text-amber-800' }}">
+                {{ ['aberta' => 'Inscrições abertas', 'encerrada' => 'Inscrições encerradas', 'esgotada' => 'Vagas esgotadas'][$statusInscricao] }}
+            </span>
+            <p class="text-xs text-slate-500">Prazo: {{ \Carbon\Carbon::parse($evento['prazo_inscricao'])->format('d/m/Y') }}</p>
+        </div>
         <div class="mt-auto flex items-center justify-between gap-4 pt-6">
             <span class="text-xs font-semibold {{ $restantes <= 10 ? 'text-amber-600' : 'text-slate-500' }}">{{ $restantes }} vagas restantes</span>
             <a href="{{ route('eventos.show', $evento['id']) }}" class="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-uoscc-dark">Ver detalhes</a>

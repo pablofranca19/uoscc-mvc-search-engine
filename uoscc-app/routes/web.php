@@ -1,5 +1,9 @@
 <?php
 
+use App\ActivityRegistration;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 $eventos = [
@@ -10,6 +14,14 @@ $eventos = [
 ];
 
 $eventos[5] = ['id' => 5, 'natureza' => 'projeto', 'titulo' => 'Trilhas Digitais — projeto demonstrativo', 'organizacao' => 'Conecta Comunidade', 'data' => '2026-11-07', 'hora' => '14:00', 'local' => 'Espaço Conecta', 'regiao' => 'Orla', 'tipo' => 'Oficina', 'vagas' => 25, 'inscritos' => 0, 'descricao' => 'Exemplo fictício para testar a descoberta de projetos: encontros de inclusão digital com início na data indicada.'];
+
+$eventos[3]['prazo_inscricao'] = '2026-10-14';
+$eventos[4]['inscritos'] = $eventos[4]['vagas'];
+
+foreach ($eventos as &$evento) {
+    $evento['prazo_inscricao'] ??= Carbon::parse($evento['data'])->subDay()->toDateString();
+}
+unset($evento);
 
 $organizacoes = [
     1 => ['id' => 1, 'nome' => 'Instituto Viver Melhor', 'sigla' => 'IVM', 'area' => 'Assistência social', 'regiao' => 'Centro', 'descricao' => 'Atua com ações de cidadania, apoio comunitário e fortalecimento de famílias.', 'email' => 'contato@ivm.org.br', 'telefone' => '(71) 3000-1001'],
@@ -43,10 +55,27 @@ Route::get('/eventos/{id}', function (int $id) use ($eventos) {
     return view('eventos.show', ['evento' => $eventos[$id]]);
 })->name('eventos.show');
 
-Route::post('/eventos/{id}/inscricao', function (int $id) use ($eventos) {
+Route::post('/eventos/{id}/inscricao', function (Request $request, int $id) use ($eventos): RedirectResponse {
     abort_unless(isset($eventos[$id]), 404);
 
-    return back()->with('success', 'Sua solicitação de inscrição foi recebida!');
+    if (ActivityRegistration::status($eventos[$id]) !== 'aberta') {
+        return redirect()->route('eventos.show', $id)->withErrors(['inscricao' => 'As inscrições desta atividade estão encerradas ou as vagas estão esgotadas.']);
+    }
+
+    $request->validate([
+        'nome' => ['required', 'string', 'min:3', 'max:120'],
+        'email' => ['required', 'email', 'max:254'],
+    ], [
+        'nome.required' => 'Informe seu nome.',
+        'nome.string' => 'Informe um nome válido.',
+        'nome.min' => 'O nome deve ter pelo menos 3 caracteres.',
+        'nome.max' => 'O nome deve ter no máximo 120 caracteres.',
+        'email.required' => 'Informe seu e-mail.',
+        'email.email' => 'Informe um e-mail válido.',
+        'email.max' => 'O e-mail deve ter no máximo 254 caracteres.',
+    ]);
+
+    return redirect()->route('eventos.show', $id)->with('demo', 'Simulação concluída: os campos foram validados. Nenhuma inscrição foi registrada e nenhuma vaga foi reservada.');
 })->name('eventos.inscricao');
 
 Route::get('/organizacoes', function () use ($organizacoes) {
@@ -75,8 +104,30 @@ Route::get('/espacos/{id}', function (int $id) use ($espacos) {
     return view('espacos.show', ['espaco' => $espacos[$id]]);
 })->name('espacos.show');
 
-Route::post('/espacos/{id}/reserva', function (int $id) use ($espacos) {
+Route::post('/espacos/{id}/reserva', function (Request $request, int $id) use ($espacos): RedirectResponse {
     abort_unless(isset($espacos[$id]), 404);
 
-    return back()->with('success', 'Solicitação de reserva enviada com sucesso!');
+    $request->validate([
+        'nome' => ['required', 'string', 'min:3', 'max:120'],
+        'email' => ['required', 'email', 'max:254'],
+        'data' => ['required', 'date_format:Y-m-d', 'after_or_equal:'.Carbon::now('America/Bahia')->toDateString()],
+        'finalidade' => ['required', 'string', 'min:10', 'max:1000'],
+    ], [
+        'nome.required' => 'Informe seu nome.',
+        'nome.string' => 'Informe um nome válido.',
+        'nome.min' => 'O nome deve ter pelo menos 3 caracteres.',
+        'nome.max' => 'O nome deve ter no máximo 120 caracteres.',
+        'email.required' => 'Informe seu e-mail.',
+        'email.email' => 'Informe um e-mail válido.',
+        'email.max' => 'O e-mail deve ter no máximo 254 caracteres.',
+        'data.required' => 'Escolha a data desejada.',
+        'data.date_format' => 'Informe uma data válida.',
+        'data.after_or_equal' => 'Escolha hoje ou uma data futura.',
+        'finalidade.required' => 'Descreva a finalidade da atividade.',
+        'finalidade.string' => 'Informe uma descrição válida.',
+        'finalidade.min' => 'Descreva a finalidade com pelo menos 10 caracteres.',
+        'finalidade.max' => 'Use no máximo 1000 caracteres para a finalidade.',
+    ]);
+
+    return redirect()->route('espacos.show', $id)->with('demo', 'Simulação concluída: os campos foram validados. Nenhum pedido foi salvo ou enviado à OSC; a disponibilidade ainda não foi consultada.');
 })->name('espacos.reserva');
