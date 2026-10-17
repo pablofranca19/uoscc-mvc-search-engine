@@ -13,67 +13,90 @@ return new class extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("description");
-            $table->string("contact_email");
-            $table->string("contact_phone");
-            $table->string("social_media_links");
-            $table->enum("focus_area", ["EducationAndCitizenship",
-                "EnvironmentAndSustainability",
-                "HealthcareAndCommunityWellbeing",
-                "SocialAssistanceAndFamilySupport",
-                "HumanRightsAndSocialInclusion",
-                "CultureSportsAndLeisure"]);
+            $table->string('name');
+            $table->text('description');
+            $table->string('contact_email')->nullable();
+            $table->string('contact_phone')->nullable();
+            $table->string('social_media_links')->nullable();
+            $table->enum('focus_area', [
+                'EducationAndCitizenship',
+                'EnvironmentAndSustainability',
+                'HealthcareAndCommunityWellbeing',
+                'SocialAssistanceAndFamilySupport',
+                'HumanRightsAndSocialInclusion',
+                'CultureSportsAndLeisure',
+            ]);
+            $table->timestamps();
         });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("email");
-            $table->foreignId("organization_id")->nullable()->constrained();
-            $table->enum("role", ["Visitor", "Supporter"]);
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password')->nullable();
+            $table->foreignId('organization_id')->nullable()->constrained()->nullOnDelete();
+            $table->enum('role', ['Visitor', 'Supporter'])->default('Visitor');
+            $table->rememberToken();
+            $table->timestamps();
         });
+
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string("cep");
-            $table->string("neighbourhood");
-            $table->string("street");
-            $table->integer("number");
+            $table->string('cep');
+            $table->string('neighbourhood');
+            $table->string('street');
+            $table->integer('number');
+            $table->timestamps();
         });
+
         Schema::create('spaces', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("description");
-            $table->integer("capacity");
-            $table->string("facility");
-            $table->foreignId("locations_id")->constrained();
+            $table->string('name');
+            $table->text('description');
+            $table->integer('capacity');
+            $table->string('facility');
+            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
+
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
-            $table->string("title");
-            $table->string("description");
-            $table->date("activity_date");
-            $table->foreignId("space_id")->constrained();
-            $table->enum("activity_type", ["Event", "Project"]);
-            $table->integer("capacity");
-            $table->date("registration_deadline");
+            $table->string('title');
+            $table->text('description');
+            $table->date('activity_date');
+            $table->foreignId('space_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
+            $table->enum('activity_type', ['Event', 'Project']);
+            $table->integer('capacity')->nullable();
+            $table->date('registration_deadline')->nullable();
+            $table->timestamps();
         });
+
         Schema::create('activity_organization', function (Blueprint $table) {
-            $table->primary(["activity_id", "organization_id"]);
-            $table->foreignId("activity_id")->constrained();
-            $table->foreignId("organization_id")->constrained();
+            $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
+            $table->primary(['activity_id', 'organization_id']);
         });
+
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("contact");
-            $table->timestamp("registered_at");
+            $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
+            $table->string('participant_name');
+            $table->string('participant_contact');
+            $table->timestamp('registered_at');
+            $table->timestamps();
         });
-        Schema::create('space_reservation', function (Blueprint $table) {
+
+        Schema::create('space_reservations', function (Blueprint $table) {
             $table->id();
-            $table->string("request_name");
-            $table->string("request_contact");
-            $table->date("request_date");
-            $table->enum("reservation_status", ["Pending", "Approved", "Rejected"])->default("Pending");
+            $table->foreignId('space_id')->constrained()->cascadeOnDelete();
+            $table->string('requester_name');
+            $table->string('requester_contact');
+            $table->date('requested_date');
+            $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
+            $table->timestamps();
         });
     }
 
