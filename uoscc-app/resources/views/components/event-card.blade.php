@@ -6,7 +6,9 @@
 @endphp
 <article class="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
     <div class="relative min-h-40 overflow-hidden bg-gradient-to-br from-uoscc-primary via-emerald-500 to-uoscc-dark p-6 text-white">
-        <div class="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/10"></div>
+        <div class="glow-orb absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/10"></div>
+        <div class="glow-orb absolute -bottom-14 -left-6 h-28 w-28 rounded-full bg-white/10" style="animation-delay: 3.5s;"></div>
+        <x-particles variant="light" />
         <div class="relative flex flex-wrap gap-2">
             <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-uoscc-dark">{{ ($evento['natureza'] ?? 'evento') === 'projeto' ? 'Projeto' : 'Evento' }}</span>
             <span class="rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">{{ $evento['tipo'] }}</span>

@@ -1,8 +1,11 @@
 @props(['espaco'])
 <article class="flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
-    <div class="min-h-32 bg-gradient-to-br from-slate-800 to-uoscc-dark p-6 text-white">
-        <p class="text-xs font-bold uppercase tracking-wider text-emerald-200">{{ $espaco['organizacao'] }}</p>
-        <h3 class="mt-2 text-xl font-extrabold">{{ $espaco['nome'] }}</h3>
+    <div class="relative min-h-32 overflow-hidden bg-gradient-to-br from-slate-800 to-uoscc-dark p-6 text-white">
+        <div class="glow-orb absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/10"></div>
+        <div class="glow-orb absolute -bottom-14 -left-6 h-28 w-28 rounded-full bg-white/10" style="animation-delay: 3.5s;"></div>
+        <x-particles variant="light" />
+        <p class="relative text-xs font-bold uppercase tracking-wider text-emerald-200">{{ $espaco['organizacao'] }}</p>
+        <h3 class="relative mt-2 text-xl font-extrabold">{{ $espaco['nome'] }}</h3>
     </div>
     <div class="flex flex-1 flex-col p-6">
         <div class="flex flex-wrap gap-2">

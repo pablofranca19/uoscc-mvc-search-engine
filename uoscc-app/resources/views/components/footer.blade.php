@@ -2,7 +2,13 @@
     <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
         <div>
             <div class="flex items-center gap-3">
-                <span class="grid h-10 w-10 place-items-center rounded-xl bg-uoscc-primary font-black text-white">U</span>
+                <span class="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-uoscc-primary to-uoscc-dark text-white">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="9" cy="12" r="5.5"/>
+                        <circle cx="15" cy="12" r="5.5"/>
+                        <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>
+                    </svg>
+                </span>
                 <span class="text-lg font-black text-uoscc-dark dark:text-uoscc-light">UOSCC</span>
             </div>
             <p class="mt-4 max-w-sm text-sm leading-6 text-slate-500 dark:text-slate-400">Unindo forças para fortalecer organizações da sociedade civil e aproximar projetos, pessoas e oportunidades.</p>
