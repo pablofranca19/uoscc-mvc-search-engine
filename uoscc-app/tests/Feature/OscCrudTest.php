@@ -41,6 +41,15 @@ test('validates required fields when creating an osc', function () {
     $response->assertSessionHasErrors(['nome', 'area_atuacao']);
 });
 
+test('displays a phone field configured for Brazilian phone formatting', function () {
+    $response = $this->get(route('oscs.create'));
+
+    $response
+        ->assertOk()
+        ->assertSee('data-phone-mask', false)
+        ->assertSee('maxlength="15"', false);
+});
+
 test('updates an osc', function () {
     $osc = Osc::factory()->create();
 
