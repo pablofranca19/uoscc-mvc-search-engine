@@ -29,6 +29,16 @@
     }
 }
 
+@keyframes particle-float {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: .15; }
+    50% { transform: translate3d(14px, -46px, 0) scale(1.35); opacity: .85; }
+}
+
+@keyframes orb-drift {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: .5; }
+    50% { transform: translate3d(-22px, 18px, 0) scale(1.18); opacity: .95; }
+}
+
 @layer components {
     .section-shell { @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
     .eyebrow { @apply text-xs font-black uppercase tracking-[0.18em] text-uoscc-primary; }
@@ -36,4 +46,21 @@
     .section-copy { @apply mt-4 max-w-2xl text-base leading-7 text-slate-500 dark:text-slate-400; }
     .input { @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-uoscc-primary focus:ring-4 focus:ring-emerald-100 sm:text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-emerald-900/40; }
     .label { @apply mb-2 block text-sm font-bold text-slate-700 dark:text-slate-300; }
+    .particle {
+        position: absolute;
+        border-radius: 9999px;
+        background: rgba(108, 194, 142, .6);
+        box-shadow: 0 0 12px rgba(108, 194, 142, .65);
+        animation-name: particle-float;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+    }
+    .particle-light {
+        background: rgba(255, 255, 255, .6);
+        box-shadow: 0 0 10px rgba(255, 255, 255, .7);
+    }
+    .glow-orb {
+        animation: orb-drift 14s ease-in-out infinite;
+        will-change: transform, opacity;
+    }
 }
