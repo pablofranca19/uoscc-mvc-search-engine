@@ -88,5 +88,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+    const themeToggle = document.getElementById('theme-toggle');
 
+    if (themeToggle) {
+        const root = document.documentElement;
+        const syncThemeToggle = () => {
+            const isDark = root.classList.contains('dark');
+            themeToggle.setAttribute('aria-pressed', String(isDark));
+            themeToggle.setAttribute('aria-label', isDark ? 'Ativar modo claro' : 'Ativar modo escuro');
+        };
+        themeToggle.addEventListener('click', () => {
+            root.classList.toggle('dark');
+            localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';
+            syncThemeToggle();
+        });
+        syncThemeToggle();
+    }
 });

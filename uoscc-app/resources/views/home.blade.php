@@ -33,7 +33,7 @@
 <section class="section-shell py-20">
     <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
         <div><p class="eyebrow">Conheça as iniciativas</p><h2 class="section-title">Eventos e projetos em destaque</h2><p class="section-copy">Explore ações, oficinas e encontros promovidos pelas organizações.</p></div>
-        <a href="{{ route('eventos') }}" class="font-bold text-uoscc-primary hover:text-uoscc-dark">Ver eventos e projetos →</a>
+        <a href="{{ route('eventos') }}" class="font-bold text-uoscc-primary hover:text-uoscc-dark dark:text-uoscc-light dark:hover:text-white">Ver eventos e projetos →</a>
     </div>
     <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         @foreach(array_slice($eventos, 0, 3) as $evento)
@@ -42,7 +42,7 @@
     </div>
 </section>
 
-<section class="bg-white py-20">
+<section class="bg-white py-20 dark:bg-slate-900">
     <div class="section-shell">
         <div><p class="eyebrow">Quem faz acontecer</p><h2 class="section-title">Organizações da UOSCC</h2><p class="section-copy">Conheça quem está construindo soluções e fortalecendo a comunidade.</p></div>
         <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

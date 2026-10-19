@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
@@ -30,8 +32,8 @@
 @layer components {
     .section-shell { @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
     .eyebrow { @apply text-xs font-black uppercase tracking-[0.18em] text-uoscc-primary; }
-    .section-title { @apply mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl; }
-    .section-copy { @apply mt-4 max-w-2xl text-base leading-7 text-slate-500; }
-    .input { @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-uoscc-primary focus:ring-4 focus:ring-emerald-100 sm:text-sm; }
-    .label { @apply mb-2 block text-sm font-bold text-slate-700; }
+    .section-title { @apply mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl dark:text-white; }
+    .section-copy { @apply mt-4 max-w-2xl text-base leading-7 text-slate-500 dark:text-slate-400; }
+    .input { @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-uoscc-primary focus:ring-4 focus:ring-emerald-100 sm:text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-emerald-900/40; }
+    .label { @apply mb-2 block text-sm font-bold text-slate-700 dark:text-slate-300; }
 }
