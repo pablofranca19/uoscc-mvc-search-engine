@@ -37,5 +37,6 @@ test('supporter page requires a real account', function () {
 
 test('public pages explain that consultation does not require an account', function (string $path) {
     $this->get($path)->assertSee('Explore eventos, projetos, organizações e espaços sem cadastro.')
-        ->assertSee('Entrar ou criar conta de apoiador');
+        ->assertSee('Entrar como apoiador')
+        ->assertSee('Cadastre sua OSC');
 })->with(['/', '/eventos', '/espacos', '/organizacoes', '/eventos/1', '/espacos/1']);
