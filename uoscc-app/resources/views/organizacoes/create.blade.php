@@ -8,6 +8,11 @@
         <div class="glow-orb absolute -left-16 top-28 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl"></div>
         <div class="glow-orb absolute -right-20 bottom-20 h-80 w-80 rounded-full bg-teal-300/15 blur-3xl" style="animation-delay: 3s;"></div>
         <x-particles variant="light" />
+        <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+            @foreach ([[6, 48, 5, 9, 1.4], [18, 84, 4, 7, 3.1], [31, 28, 6, 11, .8], [43, 76, 4, 8, 2.5], [57, 12, 5, 10, 4.2], [69, 52, 6, 9, 1.9], [82, 35, 4, 7, 3.6], [94, 70, 5, 11, .4]] as [$left, $top, $size, $duration, $delay])
+                <span class="particle particle-light" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $size }}px; height: {{ $size }}px; animation-duration: {{ $duration }}s; animation-delay: {{ $delay }}s;"></span>
+            @endforeach
+        </div>
 
         <div class="section-shell relative">
             <div class="mx-auto max-w-3xl">
