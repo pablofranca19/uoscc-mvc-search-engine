@@ -3,10 +3,10 @@
 @section('title', 'Cadastre sua OSC — UOSCC')
 
 @section('content')
-    <section class="relative overflow-hidden bg-slate-950 py-14 sm:py-20">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(47,158,89,.45),transparent_28%),radial-gradient(circle_at_88%_12%,rgba(108,194,142,.25),transparent_24%),radial-gradient(circle_at_75%_88%,rgba(47,158,89,.2),transparent_30%)]"></div>
-        <div class="glow-orb absolute -left-16 top-28 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl"></div>
-        <div class="glow-orb absolute -right-20 bottom-20 h-80 w-80 rounded-full bg-teal-300/15 blur-3xl" style="animation-delay: 3s;"></div>
+    <section class="relative overflow-hidden bg-emerald-50 py-14 sm:py-20 dark:bg-slate-950">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(47,158,89,.24),transparent_28%),radial-gradient(circle_at_88%_12%,rgba(108,194,142,.32),transparent_24%),radial-gradient(circle_at_75%_88%,rgba(47,158,89,.16),transparent_30%)] dark:bg-[radial-gradient(circle_at_12%_18%,rgba(47,158,89,.45),transparent_28%),radial-gradient(circle_at_88%_12%,rgba(108,194,142,.25),transparent_24%),radial-gradient(circle_at_75%_88%,rgba(47,158,89,.2),transparent_30%)]"></div>
+        <div class="glow-orb absolute -left-16 top-28 h-72 w-72 rounded-full bg-emerald-300/35 blur-3xl dark:bg-emerald-300/20"></div>
+        <div class="glow-orb absolute -right-20 bottom-20 h-80 w-80 rounded-full bg-teal-300/30 blur-3xl dark:bg-teal-300/15" style="animation-delay: 3s;"></div>
         <x-particles variant="neon" />
         <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
             @foreach ([[6, 48, 5, 9, 1.4], [18, 84, 4, 7, 3.1], [31, 28, 6, 11, .8], [43, 76, 4, 8, 2.5], [57, 12, 5, 10, 4.2], [69, 52, 6, 9, 1.9], [82, 35, 4, 7, 3.6], [94, 70, 5, 11, .4]] as [$left, $top, $size, $duration, $delay])
@@ -16,11 +16,11 @@
 
         <div class="section-shell relative">
             <div class="mx-auto max-w-3xl">
-                <p class="eyebrow text-emerald-300">Cadastro de OSC</p>
-                <h1 class="mt-2 text-3xl font-black text-white sm:text-4xl">Cadastre sua organização</h1>
-                <p class="mt-3 max-w-2xl text-slate-200">A própria OSC informa seus dados e cria a conta da pessoa responsável por publicar eventos e projetos.</p>
+                <p class="eyebrow">Cadastro de OSC</p>
+                <h1 class="mt-2 text-3xl font-black text-slate-900 sm:text-4xl dark:text-white">Cadastre sua organização</h1>
+                <p class="mt-3 max-w-2xl text-slate-600 dark:text-slate-200">A própria OSC informa seus dados e cria a conta da pessoa responsável por publicar eventos e projetos.</p>
 
-                <form action="{{ route('organizacoes.cadastro.store') }}" method="POST" class="mt-8 grid gap-5 rounded-3xl border border-white/20 bg-white/95 p-6 shadow-2xl shadow-black/20 backdrop-blur sm:grid-cols-2 sm:p-8 dark:border-slate-700 dark:bg-slate-900/95">
+                <form action="{{ route('organizacoes.cadastro.store') }}" method="POST" class="mt-8 grid gap-5 rounded-3xl border border-white/70 bg-white/85 p-6 shadow-2xl shadow-emerald-950/10 backdrop-blur sm:grid-cols-2 sm:p-8 dark:border-slate-700 dark:bg-slate-900/95 dark:shadow-black/20">
                 @csrf
                 <div class="sm:col-span-2">
                     <label class="label" for="organization-name">Nome da organização</label>
