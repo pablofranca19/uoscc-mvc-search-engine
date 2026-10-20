@@ -9,6 +9,6 @@
         </div>
     </div>
     <p class="mt-5 text-sm leading-6 text-slate-500 dark:text-slate-400">{{ $organizacao['descricao'] }}</p>
-    <p class="mt-4 text-xs font-semibold text-slate-500 dark:text-slate-400">Perfil demonstrativo</p>
-    <a href="{{ route('organizacoes.show', $organizacao['id']) }}" class="mt-auto inline-flex pt-5 text-sm font-bold text-uoscc-primary hover:text-uoscc-dark dark:text-uoscc-light dark:hover:text-white" aria-label="Conhecer {{ $organizacao['nome'] }}">Conhecer organização →</a>
+    <p class="mt-4 text-xs font-semibold text-slate-500 dark:text-slate-400">{{ $organizacao['demonstrativa'] ? 'Perfil demonstrativo' : 'Organização cadastrada' }}</p>
+    <a href="{{ $organizacao['url'] ?? route('organizacoes.show', $organizacao['id']) }}" class="mt-auto inline-flex pt-5 text-sm font-bold text-uoscc-primary hover:text-uoscc-dark dark:text-uoscc-light dark:hover:text-white" aria-label="Conhecer {{ $organizacao['nome'] }}">Conhecer organização →</a>
 </article>

@@ -20,6 +20,23 @@
                 <p class="mt-2 text-xs text-slate-500 dark:text-slate-400" id="area-ajuda">Descreva a principal causa ou público atendido.</p>
                 @error('area_atuacao')<p class="mt-2 text-sm font-medium text-red-700 dark:text-red-300" id="area-erro">{{ $message }}</p>@enderror
             </div>
+
+            <div class="sm:col-span-2">
+                <label class="block text-sm font-semibold text-slate-800 dark:text-slate-200" for="localizacao">Localização</label>
+                <select class="mt-2 block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-blue-400 dark:focus:ring-blue-950" data-other-location id="localizacao" name="localizacao">
+                    <option value="">Selecione a região de atuação</option>
+                    @foreach(['Camaçari — Centro', 'Camaçari — Orla', 'Camaçari — Gleba A', 'Camaçari — Parque Verde', 'Outra região'] as $localizacao)
+                        <option value="{{ $localizacao }}" @selected(old('localizacao', $osc->localizacao ?? '') === $localizacao)>{{ $localizacao }}</option>
+                    @endforeach
+                </select>
+                @error('localizacao')<p class="mt-2 text-sm font-medium text-red-700 dark:text-red-300">{{ $message }}</p>@enderror
+            </div>
+
+            <div class="sm:col-span-2" data-other-location-field hidden>
+                <label class="block text-sm font-semibold text-slate-800 dark:text-slate-200" for="outra_localizacao">Qual é a região?</label>
+                <input class="mt-2 block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-blue-400 dark:focus:ring-blue-950" id="outra_localizacao" name="outra_localizacao" placeholder="Ex.: Camaçari — Barra do Pojuca" type="text" value="{{ old('outra_localizacao', $osc->outra_localizacao ?? '') }}">
+                @error('outra_localizacao')<p class="mt-2 text-sm font-medium text-red-700 dark:text-red-300">{{ $message }}</p>@enderror
+            </div>
         </div>
     </section>
 

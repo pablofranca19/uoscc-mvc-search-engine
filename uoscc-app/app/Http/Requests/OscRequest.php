@@ -24,6 +24,8 @@ class OscRequest extends FormRequest
         return [
             'nome' => ['required', 'string', 'max:255'],
             'area_atuacao' => ['required', 'string', 'max:255'],
+            'localizacao' => ['nullable', 'string', 'max:255'],
+            'outra_localizacao' => ['nullable', 'required_if:localizacao,Outra região', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
             'telefone' => ['nullable', 'string', 'max:255'],
             'redes_sociais' => ['nullable', 'string', 'max:255'],

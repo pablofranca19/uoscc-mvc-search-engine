@@ -32,13 +32,16 @@
                                 <div>{{ $osc->email ?: '—' }}</div>
                                 <div class="text-slate-500">{{ $osc->telefone }}</div>
                             </td>
-                            <td class="px-4 py-3 text-right whitespace-nowrap">
-                                <a class="font-medium text-blue-700 hover:underline" href="{{ route('oscs.edit', $osc) }}">Editar</a>
-                                <form class="ml-3 inline" method="POST" action="{{ route('oscs.destroy', $osc) }}" onsubmit="return confirm('Deseja excluir esta OSC?');">
+                            <td class="px-4 py-3">
+                                <div class="flex flex-wrap justify-end gap-2">
+                                    <a class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-200" href="{{ route('atividades.create', ['osc_id' => $osc->id]) }}">Adicionar evento</a>
+                                    <a class="inline-flex items-center justify-center rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100 focus:outline-none focus:ring-4 focus:ring-blue-100" href="{{ route('oscs.edit', $osc) }}">Editar</a>
+                                    <form method="POST" action="{{ route('oscs.destroy', $osc) }}" onsubmit="return confirm('Deseja excluir esta OSC?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="font-medium text-red-700 hover:underline" type="submit">Excluir</button>
-                                </form>
+                                        <button class="inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:bg-red-100 focus:outline-none focus:ring-4 focus:ring-red-100" type="submit">Excluir</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

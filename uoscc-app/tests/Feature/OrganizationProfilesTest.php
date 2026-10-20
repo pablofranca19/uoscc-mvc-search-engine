@@ -1,7 +1,11 @@
 <?php
 
+use App\Models\Osc;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ViewErrorBag;
+
+uses(RefreshDatabase::class);
 
 test('the public directory preserves the four original organizations and discovery controls', function () {
     $response = $this->get('/organizacoes');
@@ -53,6 +57,27 @@ test('unknown organization returns 404', function () {
     $this->get('/organizacoes/999')->assertNotFound();
 });
 
+test('a registered osc appears in the public directory and profile', function () {
+    $osc = Osc::factory()->create([
+        'nome' => 'Instituto Novos Caminhos',
+        'area_atuacao' => 'Educação',
+        'email' => 'contato@novoscaminhos.test',
+        'telefone' => '(71) 99999-9999',
+        'descricao' => 'Promove oportunidades para a comunidade.',
+    ]);
+
+    $this->get(route('organizacoes'))
+        ->assertOk()
+        ->assertSee('Instituto Novos Caminhos')
+        ->assertSee('Organização cadastrada');
+
+    $this->get(route('organizacoes.cadastradas.show', $osc))
+        ->assertOk()
+        ->assertSee('Instituto Novos Caminhos')
+        ->assertSee('contato@novoscaminhos.test')
+        ->assertDontSee('Perfil demonstrativo');
+});
+
 test('home counters describe catalog contents instead of invented impact metrics', function () {
     $response = $this->get('/');
 
@@ -66,7 +91,7 @@ test('home counters describe catalog contents instead of invented impact metrics
 test('home counters reflect an empty catalog', function () {
     $html = view('home', ['eventos' => [], 'organizacoes' => [], 'espacos' => [], 'errors' => new ViewErrorBag])->render();
 
-    expect(substr_count($html, '<strong class="text-3xl font-black">0</strong>'))->toBe(4);
+    expect(substr_count($html, 'data-counter="0"'))->toBe(4);
 });
 
 test('organization detail labels its project and displays the project deadline', function () {

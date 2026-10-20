@@ -1,6 +1,13 @@
 <?php
 
 use App\ActivityRegistration;
+use App\Http\Controllers\OscController;
+use App\Http\Controllers\EventoController;
+use App\Models\Evento;
+use App\Http\Controllers\SupporterAuthController;
+use App\Http\Controllers\SupporterDashboardController;
+use App\Models\Osc;
+use App\Http\Controllers\ActivityController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -36,27 +43,72 @@ foreach ($organizacoes as &$organizacao) {
 }
 unset($organizacao);
 
+$organizationFromOsc = static function (Osc $osc): array {
+    $initials = collect(preg_split('/\s+/', $osc->nome))
+        ->filter()
+        ->map(static fn (string $word): string => mb_strtoupper(mb_substr($word, 0, 1)))
+        ->take(3)
+        ->implode('');
+
+    return [
+        'id' => 'osc-'.$osc->id,
+        'nome' => $osc->nome,
+        'sigla' => $initials,
+        'area' => $osc->area_atuacao,
+        'regiao' => $osc->outra_localizacao ?: ($osc->localizacao ?: 'Região não informada'),
+        'descricao' => $osc->descricao ?: 'Esta organização ainda não informou uma apresentação.',
+        'email' => $osc->email,
+        'telefone' => $osc->telefone,
+        'redes_sociais' => [],
+        'demonstrativa' => false,
+        'url' => route('organizacoes.cadastradas.show', $osc),
+    ];
+};
+
+$catalogOrganizations = static function () use ($organizacoes, $organizationFromOsc): array {
+    return [
+        ...$organizacoes,
+        ...Osc::query()->orderBy('nome')->get()->map($organizationFromOsc)->all(),
+    ];
+};
+
 $espacos = [
     1 => ['id' => 1, 'nome' => 'Espaço Conecta', 'organizacao' => 'Conecta Comunidade', 'capacidade' => 40, 'regiao' => 'Orla', 'estrutura' => ['Wi-Fi', 'Projetor', 'Ar-condicionado', 'Mesas e cadeiras'], 'descricao' => 'Sala multiuso para cursos, reuniões, oficinas e pequenas apresentações.'],
     2 => ['id' => 2, 'nome' => 'Salão Viver Melhor', 'organizacao' => 'Instituto Viver Melhor', 'capacidade' => 120, 'regiao' => 'Centro', 'estrutura' => ['Palco', 'Som', 'Projetor', 'Banheiros'], 'descricao' => 'Salão amplo para eventos comunitários, palestras e atividades coletivas.'],
     3 => ['id' => 3, 'nome' => 'Casa Verde', 'organizacao' => 'Rede Verde Camaçari', 'capacidade' => 50, 'regiao' => 'Parque Verde', 'estrutura' => ['Área externa', 'Copa', 'Wi-Fi', 'Mesas'], 'descricao' => 'Espaço integrado à área verde, ideal para encontros, oficinas e atividades ambientais.'],
 ];
 
-Route::get('/', function () use ($eventos, $organizacoes, $espacos) {
+Route::get('/', function () use ($catalogOrganizations, $eventos, $espacos) {
     return view('home', [
         'eventos' => $eventos,
-        'organizacoes' => $organizacoes,
+        'organizacoes' => $catalogOrganizations(),
         'espacos' => $espacos,
     ]);
 })->name('home');
 
 Route::get('/eventos', function () use ($eventos) {
-    $filtrados = $eventos;
+    $filtrados = array_merge($eventos, Evento::query()->get()->map(fn (Evento $evento) => ['id' => 'cadastro-'.$evento->id, 'titulo' => $evento->titulo, 'organizacao' => $evento->organizacao, 'data' => $evento->data->toDateString(), 'hora' => $evento->hora, 'local' => $evento->local, 'regiao' => $evento->regiao, 'tipo' => $evento->tipo, 'vagas' => $evento->vagas, 'inscritos' => 0, 'descricao' => $evento->descricao, 'prazo_inscricao' => $evento->data->toDateString()])->all());
 
     return view('eventos.index', ['eventos' => $filtrados]);
 })->name('eventos');
+Route::resource('gestao/eventos', EventoController::class)->only(['index','create','store'])->names('gestao-eventos');
 
-Route::view('/apoiadores', 'apoiadores')->name('apoiadores');
+Route::middleware('guest')->group(function (): void {
+    Route::get('/apoiadores/cadastro', [SupporterAuthController::class, 'create'])->name('apoiadores.cadastro');
+    Route::post('/apoiadores/cadastro', [SupporterAuthController::class, 'store'])->name('apoiadores.cadastro.store');
+    Route::get('/apoiadores/entrar', [SupporterAuthController::class, 'login'])->name('login');
+    Route::post('/apoiadores/entrar', [SupporterAuthController::class, 'authenticate'])->name('apoiadores.login');
+});
+
+Route::middleware('auth')->group(function (): void {
+    Route::get('/apoiadores', [SupporterDashboardController::class, 'index'])->name('apoiadores');
+    Route::put('/apoiadores/perfil', [SupporterDashboardController::class, 'updateProfile'])->name('apoiadores.perfil');
+    Route::post('/apoiadores/favoritos/{type}/{id}', [SupporterDashboardController::class, 'toggleFavorite'])->name('apoiadores.favoritos');
+    Route::post('/apoiadores/inscricoes/{type}/{id}', [SupporterDashboardController::class, 'register'])->name('apoiadores.inscricoes');
+    Route::post('/apoiadores/participacoes/{type}/{id}/confirmar', [SupporterDashboardController::class, 'confirmParticipation'])->name('apoiadores.participacoes.confirmar');
+    Route::get('/apoiadores/certificados/{type}/{id}', [SupporterDashboardController::class, 'certificate'])->name('apoiadores.certificados');
+    Route::post('/apoiadores/sair', [SupporterAuthController::class, 'destroy'])->name('apoiadores.sair');
+});
 
 Route::get('/eventos/{id}', function (int $id) use ($eventos) {
     abort_unless(isset($eventos[$id]), 404);
@@ -87,11 +139,19 @@ Route::post('/eventos/{id}/inscricao', function (Request $request, int $id) use 
     return redirect()->route('eventos.show', $id)->with('demo', 'Simulação concluída: os campos foram validados. Nenhuma inscrição foi registrada e nenhuma vaga foi reservada.');
 })->name('eventos.inscricao');
 
-Route::get('/organizacoes', function () use ($organizacoes) {
+Route::get('/organizacoes', function () use ($catalogOrganizations) {
     return view('organizacoes.index', [
-        'organizacoes' => $organizacoes,
+        'organizacoes' => $catalogOrganizations(),
     ]);
 })->name('organizacoes');
+
+Route::get('/organizacoes/cadastradas/{osc}', function (Osc $osc) use ($organizationFromOsc) {
+    return view('organizacoes.show', [
+        'organizacao' => $organizationFromOsc($osc),
+        'eventosOrganizacao' => [],
+        'espacosOrganizacao' => [],
+    ]);
+})->name('organizacoes.cadastradas.show');
 
 Route::get('/organizacoes/{id}', function (int $id) use ($organizacoes, $eventos, $espacos) {
     abort_unless(isset($organizacoes[$id]), 404);
@@ -141,3 +201,6 @@ Route::post('/espacos/{id}/reserva', function (Request $request, int $id) use ($
 
     return redirect()->route('espacos.show', $id)->with('demo', 'Simulação concluída: os campos foram validados. Nenhum pedido foi salvo ou enviado à OSC; a disponibilidade ainda não foi consultada.');
 })->name('espacos.reserva');
+
+Route::resource('oscs', OscController::class)->except('show');
+Route::resource('atividades', ActivityController::class)->except('show');

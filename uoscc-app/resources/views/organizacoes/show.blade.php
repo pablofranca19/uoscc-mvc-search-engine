@@ -57,15 +57,17 @@
     </div>
 
     <aside class="space-y-6">
-        <div class="rounded-3xl border border-amber-200 bg-amber-50 p-6 text-sm leading-6 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-200">
-            <h2 class="font-bold">Perfil demonstrativo</h2>
-            <p class="mt-2">Esta organização e seus dados são exemplos fictícios. Não utilize os contatos ilustrativos para enviar mensagens.</p>
-        </div>
+        @if($organizacao['demonstrativa'])
+            <div class="rounded-3xl border border-amber-200 bg-amber-50 p-6 text-sm leading-6 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-200">
+                <h2 class="font-bold">Perfil demonstrativo</h2>
+                <p class="mt-2">Esta organização e seus dados são exemplos fictícios. Não utilize os contatos ilustrativos para enviar mensagens.</p>
+            </div>
+        @endif
         <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <h2 class="text-xl font-black">Contato público</h2>
             <dl class="mt-5 space-y-5 text-sm">
-                <div><dt class="font-bold">E-mail oficial</dt><dd class="mt-1 break-words text-slate-600 dark:text-slate-300">{{ $organizacao['email'] ? 'A confirmar com a equipe' : 'Ainda não informado' }}</dd></div>
-                <div><dt class="font-bold">Telefone oficial</dt><dd class="mt-1 text-slate-600 dark:text-slate-300">{{ $organizacao['telefone'] ? 'A confirmar com a equipe' : 'Ainda não informado' }}</dd></div>
+                <div><dt class="font-bold">E-mail oficial</dt><dd class="mt-1 break-words text-slate-600 dark:text-slate-300">{{ $organizacao['email'] ? ($organizacao['demonstrativa'] ? 'A confirmar com a equipe' : $organizacao['email']) : 'Ainda não informado' }}</dd></div>
+                <div><dt class="font-bold">Telefone oficial</dt><dd class="mt-1 text-slate-600 dark:text-slate-300">{{ $organizacao['telefone'] ? ($organizacao['demonstrativa'] ? 'A confirmar com a equipe' : $organizacao['telefone']) : 'Ainda não informado' }}</dd></div>
                 <div><dt class="font-bold">Região de atuação</dt><dd class="mt-1 text-slate-600 dark:text-slate-300">{{ $organizacao['regiao'] }}</dd></div>
             </dl>
             <h3 class="mt-8 font-bold">Redes sociais</h3>

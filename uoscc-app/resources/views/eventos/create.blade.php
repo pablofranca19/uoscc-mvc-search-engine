@@ -1,0 +1,4 @@
+@extends('layouts.app')
+@section('content')
+<section class="section-shell py-14"><h1 class="section-title">Cadastrar evento</h1><form method="POST" action="{{ route('gestao-eventos.store') }}" class="mt-8 grid gap-4 rounded-3xl bg-white p-6 shadow-sm">@csrf @foreach(['titulo'=>'Título','organizacao'=>'Organização','data'=>'Data','hora'=>'Hora','local'=>'Local','regiao'=>'Região','tipo'=>'Tipo','vagas'=>'Vagas'] as $campo=>$label)<label class="label">{{ $label }}<input class="input" name="{{ $campo }}" type="{{ in_array($campo,['data','hora','vagas']) ? ($campo === 'vagas' ? 'number' : $campo) : 'text' }}" value="{{ old($campo) }}" required></label>@endforeach<label class="label">Descrição<textarea class="input" name="descricao" required>{{ old('descricao') }}</textarea></label><button class="rounded-xl bg-uoscc-primary px-5 py-3 font-bold text-white">Salvar evento</button></form></section>
+@endsection
