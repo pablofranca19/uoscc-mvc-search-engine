@@ -33,6 +33,9 @@ Route::post('/espacos', [SpaceController::class, 'store'])->name('espacos.store'
 Route::get('/espacos/{id}', [SpaceController::class, 'show'])
     ->whereNumber('id')
     ->name('espacos.show');
+Route::get('/espacos/{id}/reservas', [SpaceReservationController::class, 'show'])
+    ->whereNumber('id')
+    ->name('espacos.reservas');
 Route::post('/espacos/{id}/reserva', [SpaceReservationController::class, 'store'])
     ->whereNumber('id')
     ->name('espacos.reserva');
