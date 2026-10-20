@@ -2,68 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ActivityRequest;
+use App\Http\Requests\StoreActivityRequest;
 use App\Models\Activity;
-use App\Models\Osc;
+use App\Support\ViewPresenters;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ActivityController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Public listing of events and projects (eventos.index).
      */
-    public function index()
+    public function index(): View
     {
-        return view('activities.index', ['activities' => Activity::with('osc')->orderBy('data')->get()]);
+        $eventos = Activity::query()
+            ->public()
+            ->with(['organization', 'space.location'])
+            ->withCount('registrations')
+            ->get()
+            ->map(fn (Activity $activity): array => ViewPresenters::activity($activity))
+            ->all();
+
+        return view('eventos.index', ['eventos' => $eventos]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Public detail page for a single activity (eventos.show).
+     *
+     * TODO (controller logic): load the activity by id (404 if missing),
+     * eager-load organization + space.location + registrations count, map it
+     * with ViewPresenters::activity() and return the 'eventos.show' view with
+     * an 'evento' key.
      */
-    public function create(Request $request)
+    public function show(int $id): View
     {
-        return view('activities.form', ['activity' => new Activity(['osc_id' => $request->integer('osc_id')]), 'oscs' => Osc::orderBy('nome')->get()]);
+        $activity = Activity::query()
+            ->with(['organization', 'space.location'])
+            ->withCount('registrations')
+            ->findOrFail($id);
+
+        return view('eventos.show', ['evento' => ViewPresenters::activity($activity)]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(ActivityRequest $request): RedirectResponse
+    public function store(StoreActivityRequest $request): RedirectResponse
     {
-        Activity::create($request->validated());
+        $activity = Activity::query()->create([
+            ...$request->validated(),
+            'organization_id' => $request->user()->organization_id,
+        ]);
 
-        return redirect()->route('atividades.index')->with('success', 'Atividade cadastrada com sucesso.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Activity $activity)
-    {
-        return view('activities.form', ['activity' => $activity, 'oscs' => Osc::orderBy('nome')->get()]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ActivityRequest $request, Activity $activity): RedirectResponse
-    {
-        $activity->update($request->validated());
-
-        return redirect()->route('atividades.index')->with('success', 'Atividade atualizada com sucesso.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Activity $activity): RedirectResponse
-    {
-        $activity->delete();
-
-        return redirect()->route('atividades.index')->with('success', 'Atividade excluída com sucesso.');
+        return redirect()
+            ->route('eventos.show', $activity->id)
+            ->with('success', 'Atividade cadastrada com sucesso.');
     }
 }
