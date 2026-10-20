@@ -4,9 +4,9 @@
 
 @section('content')
     <section class="relative overflow-hidden bg-emerald-50 py-14 sm:py-20 dark:bg-slate-950">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(47,158,89,.24),transparent_28%),radial-gradient(circle_at_88%_12%,rgba(108,194,142,.32),transparent_24%),radial-gradient(circle_at_75%_88%,rgba(47,158,89,.16),transparent_30%)] dark:bg-[radial-gradient(circle_at_12%_18%,rgba(47,158,89,.45),transparent_28%),radial-gradient(circle_at_88%_12%,rgba(108,194,142,.25),transparent_24%),radial-gradient(circle_at_75%_88%,rgba(47,158,89,.2),transparent_30%)]"></div>
-        <div class="glow-orb absolute -left-16 top-28 h-72 w-72 rounded-full bg-emerald-300/35 blur-3xl dark:bg-emerald-300/20"></div>
-        <div class="glow-orb absolute -right-20 bottom-20 h-80 w-80 rounded-full bg-teal-300/30 blur-3xl dark:bg-teal-300/15" style="animation-delay: 3s;"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(167,243,208,.38),transparent_28%),radial-gradient(circle_at_88%_12%,rgba(209,250,229,.7),transparent_24%),radial-gradient(circle_at_75%_88%,rgba(187,247,208,.35),transparent_30%)] dark:bg-[radial-gradient(circle_at_12%_18%,rgba(47,158,89,.45),transparent_28%),radial-gradient(circle_at_88%_12%,rgba(108,194,142,.25),transparent_24%),radial-gradient(circle_at_75%_88%,rgba(47,158,89,.2),transparent_30%)]"></div>
+        <div class="glow-orb absolute -left-16 top-28 h-72 w-72 rounded-full bg-emerald-200/30 blur-3xl dark:bg-emerald-300/20"></div>
+        <div class="glow-orb absolute -right-20 bottom-20 h-80 w-80 rounded-full bg-teal-100/45 blur-3xl dark:bg-teal-300/15" style="animation-delay: 3s;"></div>
         <x-particles variant="neon" />
         <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
             @foreach ([[6, 48, 5, 9, 1.4], [18, 84, 4, 7, 3.1], [31, 28, 6, 11, .8], [43, 76, 4, 8, 2.5], [57, 12, 5, 10, 4.2], [69, 52, 6, 9, 1.9], [82, 35, 4, 7, 3.6], [94, 70, 5, 11, .4]] as [$left, $top, $size, $duration, $delay])

@@ -60,6 +60,10 @@
         box-shadow: 0 0 10px rgba(255, 255, 255, .7);
     }
     .particle-neon {
+        background: rgba(108, 194, 142, .5);
+        box-shadow: 0 0 8px rgba(108, 194, 142, .45);
+    }
+    .dark .particle-neon {
         background: rgba(105, 255, 160, .9);
         box-shadow: 0 0 10px rgba(105, 255, 160, .95), 0 0 24px rgba(47, 158, 89, .75);
     }
