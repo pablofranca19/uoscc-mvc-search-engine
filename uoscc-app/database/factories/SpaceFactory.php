@@ -23,7 +23,10 @@ class SpaceFactory extends Factory
             'name' => fake()->words(2, true),
             'description' => fake()->sentence(),
             'capacity' => fake()->numberBetween(10, 200),
-            'facility' => fake()->randomElement(['Projetor', 'Som', 'Ar-condicionado', 'Wi-Fi', 'Cozinha']),
+            'facilities' => fake()->randomElements(
+                ['Projetor', 'Som', 'Ar-condicionado', 'Wi-Fi', 'Cozinha', 'Palco', 'Banheiros', 'Mesas e cadeiras'],
+                fake()->numberBetween(2, 4),
+            ),
             'location_id' => Location::factory(),
             'organization_id' => Organization::factory(),
         ];
