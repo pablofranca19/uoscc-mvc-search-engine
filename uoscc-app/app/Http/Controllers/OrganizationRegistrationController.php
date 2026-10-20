@@ -46,7 +46,7 @@ class OrganizationRegistrationController extends Controller
         $request->session()->regenerate();
 
         return redirect()
-            ->route('eventos.create')
-            ->with('success', 'Organização cadastrada. Agora você pode publicar seu primeiro evento ou projeto.');
+            ->route('organizacoes.perfil')
+            ->with('success', 'Organização cadastrada. Acesse seu perfil para publicar o primeiro evento ou projeto.');
     }
 }

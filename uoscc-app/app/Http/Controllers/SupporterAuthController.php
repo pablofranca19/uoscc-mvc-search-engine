@@ -57,7 +57,11 @@ class SupporterAuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('apoiadores'));
+        return redirect()->intended(
+            Auth::user()?->isOrganizationManager()
+                ? route('organizacoes.perfil')
+                : route('apoiadores'),
+        );
     }
 
     public function destroy(Request $request): RedirectResponse

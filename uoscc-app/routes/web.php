@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\OrganizationProfileController;
 use App\Http\Controllers\OrganizationRegistrationController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SpaceController;
@@ -24,6 +25,8 @@ Route::middleware('guest')->group(function (): void {
 });
 
 Route::middleware('auth')->group(function (): void {
+    Route::get('/organizacoes/perfil', [OrganizationProfileController::class, 'show'])->name('organizacoes.perfil');
+
     Route::get('/apoiadores', [SupporterDashboardController::class, 'index'])->name('apoiadores');
     Route::put('/apoiadores/perfil', [SupporterDashboardController::class, 'updateProfile'])->name('apoiadores.perfil');
     Route::post('/apoiadores/favoritos/{type}/{id}', [SupporterDashboardController::class, 'toggleFavorite'])->name('apoiadores.favoritos');

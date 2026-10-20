@@ -56,7 +56,7 @@
                     <p id="event-deadline-help" class="mt-2 text-xs text-slate-500 dark:text-slate-400">Use o formato dia/mês/ano.</p>
                 </div>
                 <div class="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 sm:col-span-2 sm:flex-row sm:justify-end dark:border-slate-700">
-                    <a class="rounded-xl px-5 py-3 text-center text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800" href="{{ route('apoiadores') }}">Cancelar</a>
+                    <a class="rounded-xl px-5 py-3 text-center text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800" href="{{ route('organizacoes.perfil') }}">Cancelar</a>
                     <button class="rounded-xl bg-uoscc-primary px-5 py-3 text-sm font-bold text-white hover:bg-uoscc-dark">Publicar</button>
                 </div>
             </form>

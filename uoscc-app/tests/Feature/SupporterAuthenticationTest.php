@@ -58,7 +58,7 @@ test('an organization can register itself with a responsible account', function 
 
     $user = User::query()->where('email', 'joana@novoscaminhos.test')->firstOrFail();
 
-    $response->assertRedirect(route('eventos.create'));
+    $response->assertRedirect(route('organizacoes.perfil'));
     $this->assertAuthenticatedAs($user);
     $this->assertDatabaseHas('organizations', ['name' => 'Instituto Novos Caminhos']);
     $this->assertDatabaseHas('users', [

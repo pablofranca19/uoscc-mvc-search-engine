@@ -33,7 +33,7 @@
             </div>
             @auth
                 <div class="flex flex-wrap items-center gap-2 text-sm">
-                    <a href="{{ route('apoiadores') }}" class="rounded-xl bg-emerald-700 px-4 py-2 font-bold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-200 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 dark:focus:ring-emerald-900/60">Painel de {{ auth()->user()->name }}</a>
+                    <a href="{{ auth()->user()->isOrganizationManager() ? route('organizacoes.perfil') : route('apoiadores') }}" class="rounded-xl bg-emerald-700 px-4 py-2 font-bold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-200 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 dark:focus:ring-emerald-900/60">{{ auth()->user()->isOrganizationManager() ? 'Painel da OSC' : 'Painel de '.auth()->user()->name }}</a>
                     <form action="{{ route('apoiadores.sair') }}" method="POST">
                         @csrf
                         <button class="rounded-xl border border-emerald-300 bg-white/70 px-4 py-2 font-bold text-emerald-900 transition hover:bg-white focus:outline-none focus:ring-4 focus:ring-emerald-100 dark:border-emerald-700 dark:bg-slate-900/70 dark:text-emerald-200 dark:hover:bg-slate-800 dark:focus:ring-emerald-900/60">Sair</button>
