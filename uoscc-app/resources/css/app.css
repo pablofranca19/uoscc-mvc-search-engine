@@ -39,6 +39,24 @@
     50% { transform: translate3d(-22px, 18px, 0) scale(1.18); opacity: .95; }
 }
 
+@keyframes dark-background-drift {
+    0%, 100% { background-position: 0% 0%, 100% 0%, 50% 100%; }
+    50% { background-position: 18% 12%, 82% 20%, 42% 86%; }
+}
+
+@layer base {
+    html.dark body {
+        background-attachment: fixed;
+        background-image:
+            radial-gradient(circle at 10% 8%, rgba(47, 158, 89, .18), transparent 30%),
+            radial-gradient(circle at 92% 18%, rgba(20, 184, 166, .12), transparent 28%),
+            radial-gradient(circle at 48% 100%, rgba(16, 185, 129, .10), transparent 34%);
+        background-position: 0% 0%, 100% 0%, 50% 100%;
+        background-size: 150% 150%, 165% 165%, 180% 180%;
+        animation: dark-background-drift 24s ease-in-out infinite;
+    }
+}
+
 @layer components {
     .section-shell { @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
     .eyebrow { @apply text-xs font-black uppercase tracking-[0.18em] text-uoscc-primary; }
