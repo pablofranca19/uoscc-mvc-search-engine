@@ -33,7 +33,7 @@
     <aside class="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg sm:p-7">
         <p class="text-xs font-black uppercase tracking-wider text-uoscc-primary">Solicitação de espaço</p>
         <h2 class="mt-2 text-2xl font-black">Planeje sua atividade</h2>
-        <p id="reservation-help" class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">Demonstração: use dados fictícios. O pedido não será salvo ou enviado. A data escolhida não garante disponibilidade.</p>
+        <p id="reservation-help" class="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-900">Preencha os dados abaixo para enviar sua solicitação. A organização responsável vai analisar a disponibilidade da data escolhida.</p>
         <form action="{{ route('espacos.reserva', $espaco['id']) }}" method="POST" class="mt-6 space-y-5" aria-describedby="reservation-help">
             @csrf
             @foreach(['nome' => ['Nome completo', 'text', 120], 'email' => ['E-mail', 'email', 254], 'data' => ['Data desejada', 'date', null]] as $field => [$label, $type, $max])
@@ -49,7 +49,7 @@
                 <p id="purpose-help" class="mt-2 text-xs text-slate-500">Entre 10 e 1000 caracteres.</p>
                 @error('finalidade')<p id="purpose-error" class="mt-2 text-sm text-red-700">{{ $message }}</p>@enderror
             </div>
-            <button class="w-full rounded-xl bg-uoscc-primary px-5 py-3.5 font-bold text-white hover:bg-uoscc-dark">Simular solicitação</button>
+            <button class="w-full rounded-xl bg-uoscc-primary px-5 py-3.5 font-bold text-white hover:bg-uoscc-dark">Enviar solicitação</button>
         </form>
     </aside>
 </section>

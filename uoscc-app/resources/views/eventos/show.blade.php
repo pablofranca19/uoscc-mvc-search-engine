@@ -36,9 +36,9 @@
                 </div>
             @endforeach
         </dl>
-        <div class="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-900">
-            <strong class="block">Ambiente de demonstração</strong>
-            Os dados, prazos e vagas são exemplos. Use dados fictícios nos testes: os formulários ainda não registram inscrições.
+        <div class="mt-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm leading-6 text-emerald-900">
+            <strong class="block">Inscrição aberta</strong>
+            Preencha seus dados para confirmar sua participação. Sua inscrição será registrada e ocupará uma vaga.
         </div>
     </div>
     <aside class="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg sm:p-7" aria-label="Inscrição na atividade">
@@ -46,7 +46,7 @@
         <h2 class="mt-2 text-2xl font-black">{{ $statusLabel }}</h2>
         <p class="mt-3 text-sm text-slate-600">{{ $remaining }} de {{ $evento['vagas'] }} vagas disponíveis.</p>
         @if($status === 'aberta')
-            <p id="registration-help" class="mt-3 text-sm leading-6 text-slate-500">Teste o preenchimento abaixo. Nenhuma vaga será reservada nesta demonstração.</p>
+            <p id="registration-help" class="mt-3 text-sm leading-6 text-slate-500">Preencha seus dados para confirmar sua inscrição nesta atividade.</p>
             <form action="{{ route('eventos.inscricao', $evento['id']) }}" method="POST" class="mt-6 space-y-5" aria-describedby="registration-help">
                 @csrf
                 @foreach(['nome' => ['Nome completo', 'text', 120, 'name'], 'email' => ['E-mail', 'email', 254, 'email']] as $field => [$label, $type, $max, $autocomplete])
@@ -56,7 +56,7 @@
                         @error($field)<p id="registration-{{ $field }}-error" class="mt-2 text-sm text-red-700">{{ $message }}</p>@enderror
                     </div>
                 @endforeach
-                <button class="w-full rounded-xl bg-uoscc-primary px-5 py-3.5 font-bold text-white hover:bg-uoscc-dark">Simular inscrição</button>
+                <button class="w-full rounded-xl bg-uoscc-primary px-5 py-3.5 font-bold text-white hover:bg-uoscc-dark">Confirmar inscrição</button>
             </form>
         @else
             <p class="mt-5 text-sm leading-6 text-slate-600">{{ $status === 'esgotada' ? 'Todas as vagas foram preenchidas. Este protótipo não oferece lista de espera.' : 'O prazo de inscrição terminou. Você ainda pode consultar as informações da atividade.' }}</p>

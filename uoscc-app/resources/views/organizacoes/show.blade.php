@@ -5,11 +5,10 @@
     <div class="section-shell">
         <a href="{{ route('organizacoes') }}" class="text-sm font-bold text-emerald-200">← Voltar para organizações</a>
         <div class="mt-8 flex flex-col gap-5 sm:flex-row sm:items-center">
-            <div class="grid h-20 w-20 shrink-0 place-items-center rounded-3xl bg-white text-2xl font-black text-uoscc-primary" aria-hidden="true">{{ $organizacao['sigla'] }}</div>
+            <div class="grid h-20 w-20 shrink-0 place-items-center rounded-3xl bg-white text-2xl font-black text-uoscc-primary" aria-hidden="true">{{ \Illuminate\Support\Str::substr($organizacao['nome'], 0, 1) }}</div>
             <div>
-                <p class="text-sm font-bold text-emerald-200">{{ $organizacao['area'] }}</p>
                 <h1 class="mt-2 text-3xl font-black sm:text-4xl">{{ $organizacao['nome'] }}</h1>
-                <p class="mt-3 text-emerald-100">{{ $organizacao['regiao'] }} · Camaçari, Bahia</p>
+                <p class="mt-3 text-emerald-100">Camaçari, Bahia</p>
             </div>
         </div>
     </div>
@@ -66,7 +65,6 @@
             <dl class="mt-5 space-y-5 text-sm">
                 <div><dt class="font-bold">E-mail oficial</dt><dd class="mt-1 break-words text-slate-600">{{ $organizacao['email'] ? 'A confirmar com a equipe' : 'Ainda não informado' }}</dd></div>
                 <div><dt class="font-bold">Telefone oficial</dt><dd class="mt-1 text-slate-600">{{ $organizacao['telefone'] ? 'A confirmar com a equipe' : 'Ainda não informado' }}</dd></div>
-                <div><dt class="font-bold">Região de atuação</dt><dd class="mt-1 text-slate-600">{{ $organizacao['regiao'] }}</dd></div>
             </dl>
             <h3 class="mt-8 font-bold">Redes sociais</h3>
             @if(count($organizacao['redes_sociais']) > 0)
