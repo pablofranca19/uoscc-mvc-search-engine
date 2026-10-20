@@ -21,6 +21,7 @@ class SpaceReservation extends Model
         'requester_name',
         'requester_contact',
         'requested_date',
+        'purpose',
         'status',
     ];
 
