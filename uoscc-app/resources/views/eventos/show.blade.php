@@ -7,16 +7,16 @@
     $remaining = max(0, $evento['vagas'] - $evento['inscritos']);
     $statusLabel = ['aberta' => 'Inscrições abertas', 'encerrada' => 'Inscrições encerradas', 'esgotada' => 'Vagas esgotadas'][$status];
 @endphp
-<section class="bg-slate-950 py-14 text-white sm:py-20">
+<section class="bg-emerald-50 py-14 text-slate-900 dark:bg-slate-950 dark:text-white sm:py-20">
     <div class="section-shell">
-        <a href="{{ route('eventos') }}" class="text-sm font-bold text-emerald-300">← Voltar para eventos e projetos</a>
+        <a href="{{ route('eventos') }}" class="text-sm font-bold text-uoscc-primary dark:text-emerald-300">← Voltar para eventos e projetos</a>
         <div class="mt-8 flex flex-wrap gap-3 text-xs font-bold">
             <span class="rounded-full bg-emerald-300 px-3 py-1 text-slate-950">{{ $isProject ? 'Projeto' : 'Evento' }}</span>
-            <span class="rounded-full border border-white/20 px-3 py-1">{{ $evento['tipo'] }}</span>
+            <span class="rounded-full border border-emerald-300 px-3 py-1 dark:border-white/20">{{ $evento['tipo'] }}</span>
         </div>
-        <p class="mt-5 text-sm font-bold text-emerald-300">{{ $evento['organizacao'] }}</p>
+        <p class="mt-5 text-sm font-bold text-uoscc-primary dark:text-emerald-300">{{ $evento['organizacao'] }}</p>
         <h1 class="mt-3 max-w-4xl text-3xl font-black sm:text-5xl">{{ $evento['titulo'] }}</h1>
-        <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-300">{{ $evento['descricao'] }}</p>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">{{ $evento['descricao'] }}</p>
     </div>
 </section>
 <section class="section-shell grid items-start gap-8 py-12 lg:grid-cols-[1fr_380px]">

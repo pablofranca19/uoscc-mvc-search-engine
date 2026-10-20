@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title', $espaco['nome'].' — UOSCC')
 @section('content')
-<section class="bg-slate-950 py-14 text-white sm:py-20">
+<section class="bg-emerald-50 py-14 text-slate-900 dark:bg-slate-950 dark:text-white sm:py-20">
     <div class="section-shell">
-        <a href="{{ route('espacos') }}" class="text-sm font-bold text-emerald-300">← Voltar para espaços</a>
-        <p class="mt-8 text-sm font-bold text-emerald-300">{{ $espaco['organizacao'] }}</p>
+        <a href="{{ route('espacos') }}" class="text-sm font-bold text-uoscc-primary dark:text-emerald-300">← Voltar para espaços</a>
+        <p class="mt-8 text-sm font-bold text-uoscc-primary dark:text-emerald-300">{{ $espaco['organizacao'] }}</p>
         <h1 class="mt-3 text-3xl font-black sm:text-5xl">{{ $espaco['nome'] }}</h1>
-        <p class="mt-4 max-w-2xl leading-7 text-slate-300">{{ $espaco['descricao'] }}</p>
+        <p class="mt-4 max-w-2xl leading-7 text-slate-600 dark:text-slate-300">{{ $espaco['descricao'] }}</p>
     </div>
 </section>
 <section class="section-shell grid items-start gap-8 py-12 lg:grid-cols-[1fr_380px]">

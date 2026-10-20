@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @section('title', $organizacao['nome'].' — UOSCC')
 @section('content')
-<section class="bg-uoscc-dark py-14 text-white sm:py-20">
+<section class="bg-emerald-50 py-14 text-slate-900 dark:bg-uoscc-dark dark:text-white sm:py-20">
     <div class="section-shell">
-        <a href="{{ route('organizacoes') }}" class="text-sm font-bold text-emerald-200">← Voltar para organizações</a>
+        <a href="{{ route('organizacoes') }}" class="text-sm font-bold text-uoscc-primary dark:text-emerald-200">← Voltar para organizações</a>
         <div class="mt-8 flex flex-col gap-5 sm:flex-row sm:items-center">
-            <div class="grid h-20 w-20 shrink-0 place-items-center rounded-3xl bg-white text-2xl font-black text-uoscc-primary" aria-hidden="true">{{ \Illuminate\Support\Str::substr($organizacao['nome'], 0, 1) }}</div>
+            <div class="grid h-20 w-20 shrink-0 place-items-center rounded-3xl bg-white text-2xl font-black text-uoscc-primary shadow-sm dark:bg-slate-900 dark:shadow-slate-950/30" aria-hidden="true">{{ \Illuminate\Support\Str::substr($organizacao['nome'], 0, 1) }}</div>
             <div>
                 <h1 class="mt-2 text-3xl font-black sm:text-4xl">{{ $organizacao['nome'] }}</h1>
-                <p class="mt-3 text-emerald-100">Camaçari, Bahia</p>
+                <p class="mt-3 text-emerald-800 dark:text-emerald-100">Camaçari, Bahia</p>
             </div>
         </div>
     </div>

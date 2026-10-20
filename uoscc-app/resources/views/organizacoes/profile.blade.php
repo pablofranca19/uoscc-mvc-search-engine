@@ -3,15 +3,15 @@
 @section('title', 'Painel da OSC — UOSCC')
 
 @section('content')
-    <section class="bg-slate-950 py-14 text-white sm:py-20">
+    <section class="bg-emerald-50 py-14 text-slate-900 dark:bg-slate-950 dark:text-white sm:py-20">
         <div class="section-shell flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <p class="eyebrow text-emerald-300">Área da organização</p>
                 <h1 class="mt-3 text-3xl font-black sm:text-5xl">{{ $organization->name }}</h1>
-                <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-300">Gerencie as atividades e acompanhe as informações públicas da sua OSC.</p>
+                <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">Gerencie as atividades e acompanhe as informações públicas da sua OSC.</p>
             </div>
             <div class="flex flex-wrap gap-3">
-                <a href="{{ route('espacos.create') }}" class="rounded-xl border border-white/30 px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-white/10">Cadastrar espaço</a>
+                <a href="{{ route('espacos.create') }}" class="rounded-xl border border-emerald-300 px-5 py-3 text-center text-sm font-bold text-emerald-900 transition hover:bg-white dark:border-white/30 dark:text-white dark:hover:bg-white/10">Cadastrar espaço</a>
                 <a href="{{ route('eventos.create') }}" class="rounded-xl bg-emerald-400 px-5 py-3 text-center text-sm font-bold text-slate-950 shadow-lg shadow-emerald-950/30 transition hover:bg-emerald-300">Publicar evento ou projeto</a>
             </div>
         </div>
