@@ -21,7 +21,7 @@ class Space extends Model
         'name',
         'description',
         'capacity',
-        'facility',
+        'facilities',
         'location_id',
         'organization_id',
     ];
@@ -33,6 +33,7 @@ class Space extends Model
     {
         return [
             'capacity' => 'integer',
+            'facilities' => 'array',
         ];
     }
 
