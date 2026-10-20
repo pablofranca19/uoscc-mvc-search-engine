@@ -90,11 +90,11 @@ test('an organization manager can create an activity owned by their organization
     $response = $this->actingAs(organizationManager())->post('/eventos', [
         'title' => 'Nova Atividade',
         'description' => 'Uma descrição suficientemente longa para passar.',
-        'activity_date' => '2026-12-01',
+        'activity_date' => '01/12/2026',
         'space_id' => 1,
         'activity_type' => 'Event',
         'capacity' => 50,
-        'registration_deadline' => '2026-11-30',
+        'registration_deadline' => '30/11/2026',
     ]);
 
     $activity = Activity::query()->where('title', 'Nova Atividade')->firstOrFail();
@@ -109,6 +109,8 @@ test('an organization manager can create an activity owned by their organization
         'activity_type' => 'Event',
         'capacity' => 50,
     ]);
+    expect($activity->activity_date->toDateString())->toBe('2026-12-01');
+    expect($activity->registration_deadline?->toDateString())->toBe('2026-11-30');
 });
 
 test('creating an activity validates every storable field', function () {

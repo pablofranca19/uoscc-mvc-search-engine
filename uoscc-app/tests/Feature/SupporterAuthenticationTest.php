@@ -77,7 +77,9 @@ test('only an organization manager can access the event form', function () {
 
     $this->actingAs($manager)->get(route('eventos.create'))
         ->assertOk()
-        ->assertSee('Cadastre um evento ou projeto');
+        ->assertSee('Cadastre um evento ou projeto')
+        ->assertSee('placeholder="dd/mm/aaaa"', false)
+        ->assertSee('Use o formato dia/mês/ano.');
 });
 
 test('authentication forms offer password visibility controls', function () {

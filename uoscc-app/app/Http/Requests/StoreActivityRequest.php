@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\ActivityType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class StoreActivityRequest extends FormRequest
@@ -11,6 +12,14 @@ class StoreActivityRequest extends FormRequest
     public function authorize(): bool
     {
         return (bool) $this->user()?->isOrganizationManager();
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'activity_date' => $this->normalizeBrazilianDate($this->input('activity_date')),
+            'registration_deadline' => $this->normalizeBrazilianDate($this->input('registration_deadline')),
+        ]);
     }
 
     /**
@@ -49,5 +58,14 @@ class StoreActivityRequest extends FormRequest
             'registration_deadline.date_format' => 'Informe um prazo de inscrição válido.',
             'registration_deadline.before_or_equal' => 'O prazo de inscrição deve ser até a data da atividade.',
         ];
+    }
+
+    private function normalizeBrazilianDate(mixed $date): mixed
+    {
+        if (! is_string($date) || ! Carbon::canBeCreatedFromFormat($date, 'd/m/Y')) {
+            return $date;
+        }
+
+        return Carbon::createFromFormat('!d/m/Y', $date)->toDateString();
     }
 }

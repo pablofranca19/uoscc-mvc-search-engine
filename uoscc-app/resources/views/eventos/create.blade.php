@@ -26,7 +26,8 @@
                 </div>
                 <div>
                     <label class="label" for="event-date">Data</label>
-                    <input id="event-date" class="input" name="activity_date" type="date" value="{{ old('activity_date') }}" required>
+                    <input id="event-date" class="input" name="activity_date" type="text" inputmode="numeric" autocomplete="off" placeholder="dd/mm/aaaa" pattern="\d{2}/\d{2}/\d{4}" value="{{ old('activity_date') }}" required aria-describedby="event-date-help">
+                    <p id="event-date-help" class="mt-2 text-xs text-slate-500 dark:text-slate-400">Use o formato dia/mês/ano.</p>
                 </div>
                 <div>
                     <label class="label" for="event-type">Tipo</label>
@@ -51,7 +52,8 @@
                 </div>
                 <div class="sm:col-span-2">
                     <label class="label" for="event-deadline">Prazo de inscrição</label>
-                    <input id="event-deadline" class="input" name="registration_deadline" type="date" value="{{ old('registration_deadline') }}">
+                    <input id="event-deadline" class="input" name="registration_deadline" type="text" inputmode="numeric" autocomplete="off" placeholder="dd/mm/aaaa" pattern="\d{2}/\d{2}/\d{4}" value="{{ old('registration_deadline') }}" aria-describedby="event-deadline-help">
+                    <p id="event-deadline-help" class="mt-2 text-xs text-slate-500 dark:text-slate-400">Use o formato dia/mês/ano.</p>
                 </div>
                 <div class="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 sm:col-span-2 sm:flex-row sm:justify-end dark:border-slate-700">
                     <a class="rounded-xl px-5 py-3 text-center text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800" href="{{ route('apoiadores') }}">Cancelar</a>
