@@ -5,16 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSpaceReservationRequest;
 use App\Models\Space;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class SpaceReservationController extends Controller
 {
     /**
-     * Handle a space reservation request (espacos.reserva).
-     *
-     * Field validation lives in StoreSpaceReservationRequest; this method
-     * persists the request as a pending reservation (the owning organization
-     * reviews availability afterwards) and confirms it via the 'success' flash.
+     * List every reservation made for a space, including its status
+     * (espacos.reservas).
      */
+    public function show(int $id): View
+    {
+        $space = Space::query()
+            ->with(['reservations' => fn ($query) => $query->latest('requested_date')])
+            ->findOrFail($id);
+
+        return view('espacos.reservas', [
+            'espaco' => $space,
+            'reservas' => $space->reservations,
+        ]);
+    }
+
     public function store(StoreSpaceReservationRequest $request, int $id): RedirectResponse
     {
         $space = Space::query()->findOrFail($id);
