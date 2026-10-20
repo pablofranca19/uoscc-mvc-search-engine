@@ -35,7 +35,10 @@
                     </form>
                 </div>
             @else
-                <a href="{{ route('login') }}" class="font-bold underline underline-offset-4">Entrar ou criar conta de apoiador</a>
+                <div class="flex flex-wrap gap-x-3">
+                    <a href="{{ route('login') }}" class="font-bold underline underline-offset-4">Entrar como apoiador</a>
+                    <a href="{{ route('organizacoes.cadastro') }}" class="font-bold underline underline-offset-4">Cadastre sua OSC</a>
+                </div>
             @endauth
         </div>
     </div>

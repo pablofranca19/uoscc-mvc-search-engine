@@ -10,9 +10,9 @@ function visitor(): User
     return User::factory()->create();
 }
 
-function supporter(): User
+function organizationManager(): User
 {
-    return User::factory()->supporter()->create(['organization_id' => 1]);
+    return User::factory()->organizationManager()->create(['organization_id' => 1]);
 }
 
 test('a visitor cannot create an organization', function () {
@@ -33,8 +33,16 @@ test('a guest cannot create an organization', function () {
     ])->assertForbidden();
 });
 
-test('a supporter can create an organization', function () {
-    $user = supporter();
+test('a supporter cannot create an organization', function () {
+    $this->actingAs(User::factory()->supporter()->create())->post('/organizacoes', [
+        'name' => 'Nova Organização',
+        'description' => 'Uma descrição suficientemente longa para passar.',
+        'focus_area' => 'EducationAndCitizenship',
+    ])->assertForbidden();
+});
+
+test('an organization manager can create an organization', function () {
+    $user = organizationManager();
 
     $response = $this->actingAs($user)->post('/organizacoes', [
         'name' => 'Nova Organização',
@@ -56,14 +64,10 @@ test('a supporter can create an organization', function () {
         'contact_email' => 'contato@example.com',
         'focus_area' => 'EducationAndCitizenship',
     ]);
-    $this->assertDatabaseHas('users', [
-        'id' => $user->id,
-        'organization_id' => $organization->id,
-    ]);
 });
 
 test('creating an organization validates every storable field', function () {
-    $this->actingAs(supporter())->from('/organizacoes')->post('/organizacoes', [
+    $this->actingAs(organizationManager())->from('/organizacoes')->post('/organizacoes', [
         'name' => 'ab',
         'description' => 'curto',
         'contact_email' => 'invalido',
@@ -82,8 +86,8 @@ test('a visitor cannot create an activity', function () {
     $this->assertDatabaseMissing('activities', ['title' => 'Nova Atividade']);
 });
 
-test('a supporter can create an activity owned by their organization', function () {
-    $response = $this->actingAs(supporter())->post('/eventos', [
+test('an organization manager can create an activity owned by their organization', function () {
+    $response = $this->actingAs(organizationManager())->post('/eventos', [
         'title' => 'Nova Atividade',
         'description' => 'Uma descrição suficientemente longa para passar.',
         'activity_date' => '2026-12-01',
@@ -108,7 +112,7 @@ test('a supporter can create an activity owned by their organization', function 
 });
 
 test('creating an activity validates every storable field', function () {
-    $this->actingAs(supporter())->from('/eventos')->post('/eventos', [
+    $this->actingAs(organizationManager())->from('/eventos')->post('/eventos', [
         'title' => 'ab',
         'description' => 'curto',
         'activity_date' => 'not-a-date',
@@ -137,8 +141,8 @@ test('a visitor cannot create a space', function () {
     $this->assertDatabaseMissing('spaces', ['name' => 'Novo Espaço']);
 });
 
-test('a supporter can create a space owned by their organization', function () {
-    $response = $this->actingAs(supporter())->post('/espacos', [
+test('an organization manager can create a space owned by their organization', function () {
+    $response = $this->actingAs(organizationManager())->post('/espacos', [
         'name' => 'Novo Espaço',
         'description' => 'Uma descrição suficientemente longa para passar.',
         'capacity' => 30,
@@ -162,7 +166,7 @@ test('a supporter can create a space owned by their organization', function () {
 });
 
 test('creating a space validates every storable field', function () {
-    $this->actingAs(supporter())->from('/espacos')->post('/espacos', [
+    $this->actingAs(organizationManager())->from('/espacos')->post('/espacos', [
         'name' => 'ab',
         'description' => 'curto',
         'capacity' => 0,

@@ -36,7 +36,17 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user is a supporter tied to an organization.
+     * Indicate that the user is an organization manager.
+     */
+    public function organizationManager(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::OrganizationManager,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a platform supporter.
      */
     public function supporter(): static
     {

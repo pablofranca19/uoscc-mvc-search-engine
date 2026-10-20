@@ -21,6 +21,7 @@
                 <a class="hover:text-uoscc-primary dark:hover:text-uoscc-light" href="{{ route('eventos') }}">Eventos</a>
                 <a class="hover:text-uoscc-primary dark:hover:text-uoscc-light" href="{{ route('espacos') }}">Espaços</a>
                 <a class="hover:text-uoscc-primary dark:hover:text-uoscc-light" href="{{ route('apoiadores') }}">Área de apoiadores</a>
+                <a class="hover:text-uoscc-primary dark:hover:text-uoscc-light" href="{{ route('organizacoes.cadastro') }}">Cadastre sua OSC</a>
             </div>
         </div>
         <div>

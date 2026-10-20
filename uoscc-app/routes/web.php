@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\OrganizationRegistrationController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\SpaceReservationController;
@@ -18,6 +19,8 @@ Route::middleware('guest')->group(function (): void {
     Route::post('/apoiadores/cadastro', [SupporterAuthController::class, 'store'])->name('apoiadores.cadastro.store');
     Route::get('/apoiadores/entrar', [SupporterAuthController::class, 'login'])->name('login');
     Route::post('/apoiadores/entrar', [SupporterAuthController::class, 'authenticate'])->name('apoiadores.login');
+    Route::get('/organizacoes/cadastro', [OrganizationRegistrationController::class, 'create'])->name('organizacoes.cadastro');
+    Route::post('/organizacoes/cadastro', [OrganizationRegistrationController::class, 'store'])->name('organizacoes.cadastro.store');
 });
 
 Route::middleware('auth')->group(function (): void {
@@ -29,7 +32,6 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/apoiadores/certificados/{type}/{id}', [SupporterDashboardController::class, 'certificate'])->name('apoiadores.certificados');
     Route::post('/apoiadores/sair', [SupporterAuthController::class, 'destroy'])->name('apoiadores.sair');
 
-    Route::get('/organizacoes/cadastro', [OrganizationController::class, 'create'])->name('organizacoes.create');
     Route::get('/eventos/cadastro', [ActivityController::class, 'create'])->name('eventos.create');
 });
 

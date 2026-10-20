@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\UserRole;
-use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -46,15 +45,37 @@ test('the supporter dashboard redirects guests to login', function () {
     $response->assertRedirect(route('login'));
 });
 
-test('a supporter can access the organization and event forms', function () {
-    $organization = Organization::factory()->create();
-    $user = User::factory()->supporter()->create(['organization_id' => $organization->id]);
+test('an organization can register itself with a responsible account', function () {
+    $response = $this->post(route('organizacoes.cadastro.store'), [
+        'name' => 'Instituto Novos Caminhos',
+        'description' => 'Promove oportunidades para a comunidade local.',
+        'focus_area' => 'EducationAndCitizenship',
+        'manager_name' => 'Joana Santos',
+        'manager_email' => 'joana@novoscaminhos.test',
+        'password' => 'senha-segura',
+        'password_confirmation' => 'senha-segura',
+    ]);
 
-    $this->actingAs($user)->get(route('organizacoes.create'))
-        ->assertOk()
-        ->assertSee('Cadastre sua organização');
+    $user = User::query()->where('email', 'joana@novoscaminhos.test')->firstOrFail();
 
-    $this->actingAs($user)->get(route('eventos.create'))
+    $response->assertRedirect(route('eventos.create'));
+    $this->assertAuthenticatedAs($user);
+    $this->assertDatabaseHas('organizations', ['name' => 'Instituto Novos Caminhos']);
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+        'role' => UserRole::OrganizationManager->value,
+        'organization_id' => $user->organization_id,
+    ]);
+});
+
+test('only an organization manager can access the event form', function () {
+    $supporter = User::factory()->supporter()->create();
+    $manager = User::factory()->organizationManager()->create(['organization_id' => 1]);
+
+    $this->actingAs($supporter)->get(route('eventos.create'))
+        ->assertForbidden();
+
+    $this->actingAs($manager)->get(route('eventos.create'))
         ->assertOk()
         ->assertSee('Cadastre um evento ou projeto');
 });

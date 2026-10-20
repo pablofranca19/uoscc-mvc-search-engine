@@ -36,7 +36,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->foreignId('organization_id')->nullable()->constrained()->nullOnDelete();
-            $table->enum('role', ['Visitor', 'Supporter'])->default('Visitor');
+            $table->enum('role', ['Visitor', 'Supporter', 'OrganizationManager'])->default('Visitor');
             $table->rememberToken();
             $table->timestamps();
         });

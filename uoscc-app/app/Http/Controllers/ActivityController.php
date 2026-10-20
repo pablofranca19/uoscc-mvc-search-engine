@@ -13,6 +13,8 @@ class ActivityController extends Controller
 {
     public function create(Request $request): View
     {
+        abort_unless($request->user()->isOrganizationManager(), 403);
+
         return view('eventos.create', [
             'spaces' => $request->user()->organization?->spaces()->orderBy('name')->get() ?? collect(),
         ]);
