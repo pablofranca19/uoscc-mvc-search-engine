@@ -44,12 +44,20 @@ class User extends Authenticatable
     }
 
     /**
+     * Whether this user is a supporter and may create and manage records.
+     */
+    public function isSupporter(): bool
+    {
+        return $this->role === UserRole::Supporter;
+    }
+
+    /**
      * Whether this user can manage the given organization. Only a supporter
      * that belongs to the organization may manage it.
      */
     public function canManage(Organization $organization): bool
     {
-        return $this->role === UserRole::Supporter
+        return $this->isSupporter()
             && $this->organization_id === $organization->id;
     }
 }
