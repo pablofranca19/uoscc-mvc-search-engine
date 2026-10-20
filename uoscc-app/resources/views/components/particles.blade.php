@@ -7,6 +7,6 @@
         [90, 25, 3, 7, 0.3], [15, 75, 3, 9, 3.2], [45, 40, 5, 10, 1.5],
         [70, 82, 3, 7, 2.8],
     ] as [$left, $top, $size, $duration, $delay])
-        <span @class(['particle', 'particle-light' => $variant === 'light']) style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $size }}px; height: {{ $size }}px; animation-duration: {{ $duration }}s; animation-delay: {{ $delay }}s;"></span>
+        <span @class(['particle', 'particle-light' => $variant === 'light', 'particle-neon' => $variant === 'neon']) style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $size }}px; height: {{ $size }}px; animation-duration: {{ $duration }}s; animation-delay: {{ $delay }}s;"></span>
     @endforeach
 </div>
