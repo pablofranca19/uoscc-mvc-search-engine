@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\UserRole;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -15,7 +17,11 @@ test('a supporter can create an account and is authenticated', function () {
 
     $response->assertRedirect(route('apoiadores'));
     $this->assertAuthenticated();
-    $this->assertDatabaseHas('users', ['name' => 'Maria da Silva', 'email' => 'maria@example.com']);
+    $this->assertDatabaseHas('users', [
+        'name' => 'Maria da Silva',
+        'email' => 'maria@example.com',
+        'role' => UserRole::Supporter->value,
+    ]);
 });
 
 test('an existing supporter can sign in and sign out', function () {
@@ -38,6 +44,19 @@ test('the supporter dashboard redirects guests to login', function () {
     $response = $this->get(route('apoiadores'));
 
     $response->assertRedirect(route('login'));
+});
+
+test('a supporter can access the organization and event forms', function () {
+    $organization = Organization::factory()->create();
+    $user = User::factory()->supporter()->create(['organization_id' => $organization->id]);
+
+    $this->actingAs($user)->get(route('organizacoes.create'))
+        ->assertOk()
+        ->assertSee('Cadastre sua organização');
+
+    $this->actingAs($user)->get(route('eventos.create'))
+        ->assertOk()
+        ->assertSee('Cadastre um evento ou projeto');
 });
 
 test('authentication forms offer password visibility controls', function () {

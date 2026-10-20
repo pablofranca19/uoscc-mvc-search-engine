@@ -6,10 +6,18 @@ use App\Http\Requests\StoreActivityRequest;
 use App\Models\Activity;
 use App\Support\ViewPresenters;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ActivityController extends Controller
 {
+    public function create(Request $request): View
+    {
+        return view('eventos.create', [
+            'spaces' => $request->user()->organization?->spaces()->orderBy('name')->get() ?? collect(),
+        ]);
+    }
+
     /**
      * Public listing of events and projects (eventos.index).
      */

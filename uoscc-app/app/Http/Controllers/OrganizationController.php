@@ -12,6 +12,11 @@ use Illuminate\View\View;
 
 class OrganizationController extends Controller
 {
+    public function create(): View
+    {
+        return view('organizacoes.create');
+    }
+
     /**
      * Public directory of organizations (organizacoes.index).
      *
@@ -57,6 +62,7 @@ class OrganizationController extends Controller
     public function store(StoreOrganizationRequest $request): RedirectResponse
     {
         $organization = Organization::query()->create($request->validated());
+        $request->user()->update(['organization_id' => $organization->id]);
 
         return redirect()
             ->route('organizacoes.show', $organization->id)

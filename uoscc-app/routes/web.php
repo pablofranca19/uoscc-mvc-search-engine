@@ -6,12 +6,32 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\SpaceReservationController;
+use App\Http\Controllers\SupporterAuthController;
+use App\Http\Controllers\SupporterDashboardController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::view('/apoiadores', 'apoiadores')->name('apoiadores');
+Route::middleware('guest')->group(function (): void {
+    Route::get('/apoiadores/cadastro', [SupporterAuthController::class, 'create'])->name('apoiadores.cadastro');
+    Route::post('/apoiadores/cadastro', [SupporterAuthController::class, 'store'])->name('apoiadores.cadastro.store');
+    Route::get('/apoiadores/entrar', [SupporterAuthController::class, 'login'])->name('login');
+    Route::post('/apoiadores/entrar', [SupporterAuthController::class, 'authenticate'])->name('apoiadores.login');
+});
+
+Route::middleware('auth')->group(function (): void {
+    Route::get('/apoiadores', [SupporterDashboardController::class, 'index'])->name('apoiadores');
+    Route::put('/apoiadores/perfil', [SupporterDashboardController::class, 'updateProfile'])->name('apoiadores.perfil');
+    Route::post('/apoiadores/favoritos/{type}/{id}', [SupporterDashboardController::class, 'toggleFavorite'])->name('apoiadores.favoritos');
+    Route::post('/apoiadores/inscricoes/{type}/{id}', [SupporterDashboardController::class, 'register'])->name('apoiadores.inscricoes');
+    Route::post('/apoiadores/participacoes/{type}/{id}/confirmar', [SupporterDashboardController::class, 'confirmParticipation'])->name('apoiadores.participacoes.confirmar');
+    Route::get('/apoiadores/certificados/{type}/{id}', [SupporterDashboardController::class, 'certificate'])->name('apoiadores.certificados');
+    Route::post('/apoiadores/sair', [SupporterAuthController::class, 'destroy'])->name('apoiadores.sair');
+
+    Route::get('/organizacoes/cadastro', [OrganizationController::class, 'create'])->name('organizacoes.create');
+    Route::get('/eventos/cadastro', [ActivityController::class, 'create'])->name('eventos.create');
+});
 
 Route::get('/eventos', [ActivityController::class, 'index'])->name('eventos');
 Route::post('/eventos', [ActivityController::class, 'store'])->name('eventos.store');

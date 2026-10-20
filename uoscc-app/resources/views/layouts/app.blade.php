@@ -26,7 +26,17 @@
     <div class="border-b border-emerald-100 bg-emerald-50/70 dark:border-emerald-900/40 dark:bg-emerald-950/40">
         <div class="section-shell flex flex-wrap items-center justify-between gap-2 py-3 text-xs leading-5 text-emerald-900 sm:text-sm dark:text-emerald-200">
             <p><strong>Consulta pública</strong> · Explore eventos, projetos, organizações e espaços sem cadastro.</p>
-            <span class="font-bold">Encontre iniciativas e espaços para participar.</span>
+            @auth
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('apoiadores') }}" class="font-bold underline underline-offset-4">Painel de {{ auth()->user()->name }}</a>
+                    <form action="{{ route('apoiadores.sair') }}" method="POST">
+                        @csrf
+                        <button class="font-bold underline underline-offset-4">Sair</button>
+                    </form>
+                </div>
+            @else
+                <a href="{{ route('login') }}" class="font-bold underline underline-offset-4">Entrar ou criar conta de apoiador</a>
+            @endauth
         </div>
     </div>
 

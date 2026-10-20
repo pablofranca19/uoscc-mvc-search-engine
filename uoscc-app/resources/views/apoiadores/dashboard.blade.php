@@ -8,6 +8,10 @@
             <p class="eyebrow text-emerald-300">Área do apoiador</p>
             <h1 class="mt-3 max-w-3xl text-3xl font-black sm:text-5xl">Seu impacto, em um só lugar.</h1>
             <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-300">Salve iniciativas, acompanhe participações, encontre oportunidades compatíveis e consulte seus certificados.</p>
+            <div class="mt-7 flex flex-wrap gap-3">
+                <a class="rounded-xl bg-white px-5 py-3 text-sm font-bold text-uoscc-dark hover:bg-emerald-50" href="{{ route('organizacoes.create') }}">Cadastrar organização</a>
+                <a class="rounded-xl border border-white/30 px-5 py-3 text-sm font-bold text-white hover:bg-white/10" href="{{ route('eventos.create') }}">Cadastrar evento ou projeto</a>
+            </div>
         </div>
     </section>
 

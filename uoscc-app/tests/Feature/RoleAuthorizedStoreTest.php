@@ -34,7 +34,9 @@ test('a guest cannot create an organization', function () {
 });
 
 test('a supporter can create an organization', function () {
-    $response = $this->actingAs(supporter())->post('/organizacoes', [
+    $user = supporter();
+
+    $response = $this->actingAs($user)->post('/organizacoes', [
         'name' => 'Nova Organização',
         'description' => 'Uma descrição suficientemente longa para passar.',
         'contact_email' => 'contato@example.com',
@@ -53,6 +55,10 @@ test('a supporter can create an organization', function () {
         'name' => 'Nova Organização',
         'contact_email' => 'contato@example.com',
         'focus_area' => 'EducationAndCitizenship',
+    ]);
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+        'organization_id' => $organization->id,
     ]);
 });
 
