@@ -154,7 +154,7 @@ test('an organization manager can create a space owned by their organization', f
 
     $space = Space::query()->where('name', 'Novo Espaço')->firstOrFail();
 
-    $response->assertRedirectToRoute('espacos.show', $space->id)
+    $response->assertRedirectToRoute('organizacoes.perfil')
         ->assertSessionHasNoErrors()
         ->assertSessionHas('success');
 

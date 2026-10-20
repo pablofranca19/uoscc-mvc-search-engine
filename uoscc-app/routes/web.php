@@ -26,6 +26,7 @@ Route::middleware('guest')->group(function (): void {
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/organizacoes/perfil', [OrganizationProfileController::class, 'show'])->name('organizacoes.perfil');
+    Route::get('/espacos/cadastro', [SpaceController::class, 'create'])->name('espacos.create');
 
     Route::get('/apoiadores', [SupporterDashboardController::class, 'index'])->name('apoiadores');
     Route::put('/apoiadores/perfil', [SupporterDashboardController::class, 'updateProfile'])->name('apoiadores.perfil');

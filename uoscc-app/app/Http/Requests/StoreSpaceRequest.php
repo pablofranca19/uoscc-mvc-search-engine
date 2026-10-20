@@ -23,7 +23,11 @@ class StoreSpaceRequest extends FormRequest
             'capacity' => ['required', 'integer', 'min:1'],
             'facilities' => ['nullable', 'array'],
             'facilities.*' => ['required', 'string', 'max:255'],
-            'location_id' => ['required', 'integer', Rule::exists('locations', 'id')],
+            'location_id' => ['nullable', 'integer', Rule::exists('locations', 'id')],
+            'cep' => ['required_without:location_id', 'nullable', 'string', 'min:8', 'max:9'],
+            'neighbourhood' => ['required_without:location_id', 'nullable', 'string', 'min:2', 'max:255'],
+            'street' => ['required_without:location_id', 'nullable', 'string', 'min:2', 'max:255'],
+            'number' => ['required_without:location_id', 'nullable', 'integer', 'min:0'],
         ];
     }
 
@@ -42,8 +46,13 @@ class StoreSpaceRequest extends FormRequest
             'capacity.min' => 'A capacidade deve ser de pelo menos 1 pessoa.',
             'facilities.array' => 'Informe a estrutura como uma lista.',
             'facilities.*.string' => 'Informe itens de estrutura válidos.',
-            'location_id.required' => 'Selecione a localização do espaço.',
             'location_id.exists' => 'Selecione uma localização válida.',
+            'cep.required_without' => 'Informe o CEP do espaço.',
+            'cep.min' => 'Informe um CEP válido.',
+            'neighbourhood.required_without' => 'Informe o bairro do espaço.',
+            'street.required_without' => 'Informe a rua do espaço.',
+            'number.required_without' => 'Informe o número do espaço.',
+            'number.integer' => 'Informe um número de endereço válido.',
         ];
     }
 }

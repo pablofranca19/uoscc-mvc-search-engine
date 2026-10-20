@@ -10,7 +10,10 @@
                 <h1 class="mt-3 text-3xl font-black sm:text-5xl">{{ $organization->name }}</h1>
                 <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-300">Gerencie as atividades e acompanhe as informações públicas da sua OSC.</p>
             </div>
-            <a href="{{ route('eventos.create') }}" class="rounded-xl bg-emerald-400 px-5 py-3 text-center text-sm font-bold text-slate-950 shadow-lg shadow-emerald-950/30 transition hover:bg-emerald-300">Publicar evento ou projeto</a>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('espacos.create') }}" class="rounded-xl border border-white/30 px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-white/10">Cadastrar espaço</a>
+                <a href="{{ route('eventos.create') }}" class="rounded-xl bg-emerald-400 px-5 py-3 text-center text-sm font-bold text-slate-950 shadow-lg shadow-emerald-950/30 transition hover:bg-emerald-300">Publicar evento ou projeto</a>
+            </div>
         </div>
     </section>
 
