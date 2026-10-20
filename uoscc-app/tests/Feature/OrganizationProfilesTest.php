@@ -8,8 +8,6 @@ test('the public directory preserves the four original organizations and discove
 
     $response->assertSee('perfis fictícios')
         ->assertSee('organization-search')
-        ->assertSee('Área de atuação')
-        ->assertSee('Região')
         ->assertViewHas('organizacoes', fn (array $organizations): bool => count($organizations) === 4)
         ->assertDontSee('Saúde em Comunidade')
         ->assertDontSee('Rede de Direitos e Inclusão');

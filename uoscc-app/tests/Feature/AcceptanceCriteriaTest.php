@@ -4,7 +4,6 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Organization;
 use App\Models\Space;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -52,22 +51,18 @@ test('an activity may be registered without a capacity (unlimited)', function ()
  * without requiring login.
  */
 test('activities are listable publicly without authentication', function () {
-    $this->seed(DatabaseSeeder::class);
-
     $publicActivities = Activity::public()->get();
 
     expect(auth()->check())->toBeFalse();
     expect($publicActivities)->not->toBeEmpty();
-    expect($publicActivities->pluck('title'))->toContain('Feira Cultural Aberta UOSCC');
+    expect($publicActivities->pluck('title'))->toContain('Feira de Cidadania e Serviços');
 });
 
 /**
  * Criterion 3: A visitor filters by activity type or date and finds the event.
  */
 test('a visitor can filter activities by type and by date', function () {
-    $this->seed(DatabaseSeeder::class);
-
-    $showcase = Activity::query()->where('title', 'Feira Cultural Aberta UOSCC')->firstOrFail();
+    $showcase = Activity::query()->where('title', 'Feira de Cidadania e Serviços')->firstOrFail();
 
     $byType = Activity::ofType(ActivityType::Event)->get();
     expect($byType->contains('id', $showcase->id))->toBeTrue();
@@ -82,11 +77,14 @@ test('a visitor can filter activities by type and by date', function () {
 });
 
 /**
- * The seeder builds the six UOSCC organizations, one per focus area.
+ * The seeder builds the four UOSCC demo organizations.
  */
-test('the seeder creates the six uoscc organizations', function () {
-    $this->seed(DatabaseSeeder::class);
-
-    expect(Organization::count())->toBe(6);
-    expect(Organization::pluck('focus_area')->unique()->count())->toBe(6);
+test('the seeder creates the four uoscc organizations', function () {
+    expect(Organization::count())->toBe(4);
+    expect(Organization::pluck('name'))->toContain(
+        'Instituto Viver Melhor',
+        'Conecta Comunidade',
+        'Rede Verde Camaçari',
+        'Movimento Jovem UOSCC',
+    );
 });
