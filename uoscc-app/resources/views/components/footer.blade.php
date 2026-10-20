@@ -20,7 +20,7 @@
                 <a class="hover:text-uoscc-primary dark:hover:text-uoscc-light" href="{{ route('organizacoes') }}">Organizações</a>
                 <a class="hover:text-uoscc-primary dark:hover:text-uoscc-light" href="{{ route('eventos') }}">Eventos</a>
                 <a class="hover:text-uoscc-primary dark:hover:text-uoscc-light" href="{{ route('espacos') }}">Espaços</a>
-                <a class="hover:text-uoscc-primary dark:hover:text-uoscc-light" href="{{ route('apoiadores') }}">Informações para apoiadores</a>
+                <span>Informações para apoiadores em breve</span>
             </div>
         </div>
         <div>
