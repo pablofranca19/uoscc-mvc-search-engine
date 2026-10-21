@@ -44,7 +44,24 @@
     50% { background-position: 18% 12%, 82% 20%, 42% 86%; }
 }
 
+@keyframes light-background-drift {
+    0%, 100% { background-position: 0% 0%, 100% 0%, 50% 100%, 50% 50%; }
+    50% { background-position: 14% 10%, 86% 18%, 42% 88%, 55% 48%; }
+}
+
 @layer base {
+    html:not(.dark) body {
+        background-attachment: fixed;
+        background-image:
+            radial-gradient(circle at 8% 10%, rgba(110, 205, 148, .30), transparent 28%),
+            radial-gradient(circle at 94% 14%, rgba(45, 212, 191, .20), transparent 26%),
+            radial-gradient(circle at 78% 92%, rgba(167, 243, 208, .42), transparent 31%),
+            linear-gradient(135deg, #f5fff8 0%, #ecfdf5 48%, #f0fdfa 100%);
+        background-position: 0% 0%, 100% 0%, 50% 100%, 50% 50%;
+        background-size: 145% 145%, 160% 160%, 175% 175%, 100% 100%;
+        animation: light-background-drift 26s ease-in-out infinite;
+    }
+
     html.dark body {
         background-attachment: fixed;
         background-image:
