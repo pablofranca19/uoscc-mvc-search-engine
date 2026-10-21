@@ -57,6 +57,7 @@ Route::get('/eventos', function () use ($eventos) {
 })->name('eventos');
 
 Route::view('/apoiadores', 'apoiadores')->name('apoiadores');
+require __DIR__.'/supporters.php';
 
 Route::get('/eventos/{id}', function (int $id) use ($eventos) {
     abort_unless(isset($eventos[$id]), 404);

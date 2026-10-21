@@ -72,6 +72,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelector('[data-form-errors]')?.focus();
 
+    document.querySelectorAll('[data-password-toggle]').forEach((toggle) => {
+        const field = document.getElementById(toggle.dataset.passwordToggle);
+        if (!field) return;
+        toggle.hidden = false;
+        toggle.addEventListener('click', () => {
+            const show = field.type === 'password';
+            field.type = show ? 'text' : 'password';
+            toggle.textContent = show ? 'Ocultar senha' : 'Mostrar senha';
+            toggle.setAttribute('aria-pressed', String(show));
+        });
+    });
+
     document.querySelectorAll('[data-filter]').forEach((input) => {
         input.addEventListener('input', () => {
             const query = input.value.toLowerCase().trim();

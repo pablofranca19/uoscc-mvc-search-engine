@@ -30,16 +30,17 @@ test('space discovery exposes capacity structure region and a clear empty state'
         ->assertSee('Ar-condicionado');
 });
 
-test('supporter page explains the unavailable restricted area without a fake login', function () {
+test('supporter page explains approval and keeps public consultation open', function () {
     $this->get('/apoiadores')
         ->assertSee('Consulta pública')
         ->assertSee('Área restrita')
-        ->assertSee('em preparação')
-        ->assertSee('Não há login, cadastro ou conteúdo privado disponível nesta versão.')
+        ->assertSee('Acesso após aprovação')
+        ->assertSee('Como participar')
+        ->assertSee('apoiadores/entrar')
         ->assertDontSee('type="password"', false);
 });
 
 test('public pages explain that consultation does not require an account', function (string $path) {
     $this->get($path)->assertSee('Explore eventos, projetos, organizações e espaços sem cadastro.')
-        ->assertSee('Acesso de apoiadores: em preparação');
+        ->assertSee('Área de apoiadores');
 })->with(['/', '/eventos', '/espacos', '/organizacoes', '/eventos/1', '/espacos/1']);
