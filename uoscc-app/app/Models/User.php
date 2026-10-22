@@ -3,16 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Enums\UserRole;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'organization_id', 'role'])]
+#[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -29,35 +28,17 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'role' => UserRole::class,
+            'is_supporter_admin' => 'boolean',
         ];
     }
 
-    /**
-     * The organization this user (supporter) belongs to, if any.
-     *
-     * @return BelongsTo<Organization, $this>
-     */
-    public function organization(): BelongsTo
+    public function supporterApplication(): HasOne
     {
-        return $this->belongsTo(Organization::class);
+        return $this->hasOne(SupporterApplication::class);
     }
 
-    /**
-     * Whether this user is a supporter and may create and manage records.
-     */
-    public function isSupporter(): bool
+    public function hasApprovedSupporterAccess(): bool
     {
-        return $this->role === UserRole::Supporter;
-    }
-
-    /**
-     * Whether this user can manage the given organization. Only a supporter
-     * that belongs to the organization may manage it.
-     */
-    public function canManage(Organization $organization): bool
-    {
-        return $this->isSupporter()
-            && $this->organization_id === $organization->id;
+        return $this->supporterApplication()->where('status', 'approved')->exists();
     }
 }

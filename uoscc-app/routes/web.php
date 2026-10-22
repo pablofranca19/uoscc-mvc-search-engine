@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::view('/apoiadores', 'apoiadores')->name('apoiadores');
+require __DIR__.'/supporters.php';
 
 Route::get('/eventos', [ActivityController::class, 'index'])->name('eventos');
 Route::post('/eventos', [ActivityController::class, 'store'])->name('eventos.store');

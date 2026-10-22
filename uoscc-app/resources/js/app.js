@@ -32,41 +32,57 @@ document.addEventListener('DOMContentLoaded', () => {
         updateResults();
     });
 
-    const button = document.getElementById('menu-button');
+    const menuButton = document.getElementById('menu-button');
     const menu = document.getElementById('main-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
 
-    if (button && menu) {
+    if (menuButton && menu) {
         const setMenuOpen = (isOpen) => {
-            button.setAttribute('aria-expanded', String(isOpen));
-            button.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
-            menu.classList.toggle('hidden', !isOpen);
+            menuButton.setAttribute('aria-expanded', String(isOpen));
+            menuButton.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+            menu.classList.toggle('translate-x-full', !isOpen);
+            menu.classList.toggle('translate-x-0', isOpen);
+            document.body.classList.toggle('overflow-hidden', isOpen);
+            if (menuOverlay) {
+                menuOverlay.classList.toggle('invisible', !isOpen);
+                menuOverlay.classList.toggle('opacity-0', !isOpen);
+                menuOverlay.classList.toggle('opacity-100', isOpen);
+            }
         };
-        button.classList.remove('hidden');
-        button.classList.add('grid');
 
-        button.addEventListener('click', () => {
-            setMenuOpen(button.getAttribute('aria-expanded') !== 'true');
+        setMenuOpen(false);
+
+        menuButton.addEventListener('click', () => {
+            setMenuOpen(menuButton.getAttribute('aria-expanded') !== 'true');
+        });
+        menuOverlay?.addEventListener('click', () => setMenuOpen(false));
+        document.querySelectorAll('[data-menu-close]').forEach((closeButton) => {
+            closeButton.addEventListener('click', () => setMenuOpen(false));
+        });
+        menu.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', () => setMenuOpen(false));
         });
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+            if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
                 setMenuOpen(false);
-                button.focus();
+                menuButton.focus();
             }
-        });
-        document.addEventListener('click', (event) => {
-            if (!menu.contains(event.target) && !button.contains(event.target)) {
-                setMenuOpen(false);
-            }
-        });
-        menu.addEventListener('click', (event) => {
-            if (event.target.closest('a')) setMenuOpen(false);
-        });
-        window.matchMedia('(min-width: 1024px)').addEventListener('change', (event) => {
-            if (event.matches) setMenuOpen(false);
         });
     }
 
     document.querySelector('[data-form-errors]')?.focus();
+
+    document.querySelectorAll('[data-password-toggle]').forEach((toggle) => {
+        const field = document.getElementById(toggle.dataset.passwordToggle);
+        if (!field) return;
+        toggle.hidden = false;
+        toggle.addEventListener('click', () => {
+            const show = field.type === 'password';
+            field.type = show ? 'text' : 'password';
+            toggle.textContent = show ? 'Ocultar senha' : 'Mostrar senha';
+            toggle.setAttribute('aria-pressed', String(show));
+        });
+    });
 
     document.querySelectorAll('[data-filter]').forEach((input) => {
         input.addEventListener('input', () => {
@@ -88,5 +104,68 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+    const themeToggle = document.getElementById('theme-toggle');
 
+    if (themeToggle) {
+        const root = document.documentElement;
+        const syncThemeToggle = () => {
+            const isDark = root.classList.contains('dark');
+            themeToggle.setAttribute('aria-pressed', String(isDark));
+            themeToggle.setAttribute('aria-label', isDark ? 'Ativar modo claro' : 'Ativar modo escuro');
+        };
+        themeToggle.addEventListener('click', () => {
+            root.classList.toggle('dark');
+            localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';
+            syncThemeToggle();
+        });
+        syncThemeToggle();
+    }
+
+    const counters = document.querySelectorAll('[data-counter]');
+
+    if (counters.length) {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const runCounter = (element) => {
+            const target = Number.parseInt(element.dataset.counter, 10) || 0;
+            const duration = 2200;
+
+            if (prefersReducedMotion || target === 0) {
+                element.textContent = String(target);
+                return;
+            }
+
+            const startTime = performance.now();
+            const tick = (now) => {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                element.textContent = String(Math.round(eased * target));
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                } else {
+                    element.textContent = String(target);
+                }
+            };
+
+            requestAnimationFrame(tick);
+        };
+
+        if ('IntersectionObserver' in window && !prefersReducedMotion) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        observer.unobserve(entry.target);
+                        runCounter(entry.target);
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            counters.forEach((counter) => {
+                counter.textContent = '0';
+                observer.observe(counter);
+            });
+        } else {
+            counters.forEach(runCounter);
+        }
+    }
 });

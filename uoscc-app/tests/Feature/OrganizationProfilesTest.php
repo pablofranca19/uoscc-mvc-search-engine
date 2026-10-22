@@ -64,7 +64,7 @@ test('home counters describe catalog contents instead of invented impact metrics
 test('home counters reflect an empty catalog', function () {
     $html = view('home', ['eventos' => [], 'organizacoes' => [], 'espacos' => [], 'errors' => new ViewErrorBag])->render();
 
-    expect(substr_count($html, '<strong class="text-3xl font-black">0</strong>'))->toBe(4);
+    expect(preg_match_all('/<strong\b[^>]*\bdata-counter="0"[^>]*>0<\/strong>/', $html))->toBe(4);
 });
 
 test('organization detail labels its project and displays the project deadline', function () {
