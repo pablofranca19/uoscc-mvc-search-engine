@@ -5,7 +5,6 @@
         <div>
             <p class="text-xs font-bold uppercase tracking-wider text-uoscc-primary dark:text-uoscc-light">{{ $organizacao['area'] }}</p>
             <h3 class="mt-1 font-extrabold text-slate-900 dark:text-white">{{ $organizacao['nome'] }}</h3>
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $organizacao['regiao'] }}</p>
         </div>
     </div>
     <p class="mt-5 text-sm leading-6 text-slate-500 dark:text-slate-400">{{ $organizacao['descricao'] }}</p>

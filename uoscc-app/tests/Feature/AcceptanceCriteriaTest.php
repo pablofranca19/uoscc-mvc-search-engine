@@ -4,9 +4,7 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Organization;
 use App\Models\Space;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-uses(RefreshDatabase::class);
 
 /**
  * Criterion 1: An OSC registers an event/project informing date, location,

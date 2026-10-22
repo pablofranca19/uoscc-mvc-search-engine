@@ -12,9 +12,9 @@ test('public activity pages show open closed and full registration states', func
 
     $response->assertSee($label);
     if ($open) {
-        $response->assertSee('Confirmar inscrição');
+        $response->assertSee('Simular inscrição');
     } else {
-        $response->assertDontSee('Confirmar inscrição');
+        $response->assertDontSee('Simular inscrição');
     }
 })->with([
     'open' => [1, 'Inscrições abertas', true],

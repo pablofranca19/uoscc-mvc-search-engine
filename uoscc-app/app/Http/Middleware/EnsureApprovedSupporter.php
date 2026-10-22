@@ -10,7 +10,7 @@ class EnsureApprovedSupporter
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()?->hasApprovedSupporterAccess()) {
+        if (!$request->user()?->hasApprovedSupporterAccess()) {
             return redirect()->route('apoiadores.solicitacao');
         }
 

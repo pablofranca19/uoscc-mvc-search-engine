@@ -65,6 +65,8 @@ class ViewPresenters
      * @return array{
      *     id: int,
      *     nome: string,
+     *     sigla: string,
+     *     area: string,
      *     descricao: string,
      *     email: ?string,
      *     telefone: ?string,
@@ -76,11 +78,32 @@ class ViewPresenters
         return [
             'id' => $organization->id,
             'nome' => $organization->name,
+            'sigla' => self::acronym($organization->name),
+            'area' => $organization->focus_area->label(),
             'descricao' => $organization->description,
             'email' => $organization->contact_email,
             'telefone' => $organization->contact_phone,
             'redes_sociais' => self::socialLinks($organization),
         ];
+    }
+
+    /**
+     * Build a short uppercase acronym (max 3 letters) from an organization name.
+     *
+     * Uses the initials of the first words, falling back to the first letters
+     * of the name when it is a single word.
+     */
+    private static function acronym(string $name): string
+    {
+        $words = preg_split('/\s+/', trim($name), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        if (count($words) >= 2) {
+            $initials = array_map(static fn (string $word): string => mb_substr($word, 0, 1), $words);
+
+            return mb_strtoupper(implode('', array_slice($initials, 0, 3)));
+        }
+
+        return mb_strtoupper(mb_substr($name, 0, 3));
     }
 
     /**

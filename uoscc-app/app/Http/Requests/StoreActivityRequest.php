@@ -10,7 +10,7 @@ class StoreActivityRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return (bool) $this->user()->isSupporter();
+        return (bool) $this->user()?->hasApprovedSupporterAccess();
     }
 
     /**

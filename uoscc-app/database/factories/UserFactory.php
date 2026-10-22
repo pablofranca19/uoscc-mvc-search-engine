@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\UserRole;
+use App\Models\SupporterApplication;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -36,13 +37,18 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user is a supporter tied to an organization.
+     * Indicate that the user is a supporter with approved supporter access.
      */
     public function supporter(): static
     {
         return $this->state(fn (array $attributes) => [
             'role' => UserRole::Supporter,
-        ]);
+        ])->afterCreating(function (User $user): void {
+            SupporterApplication::factory()->for($user)->create([
+                'status' => 'approved',
+                'reviewed_at' => now(),
+            ]);
+        });
     }
 
     /**

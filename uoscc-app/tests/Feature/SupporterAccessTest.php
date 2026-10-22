@@ -2,11 +2,9 @@
 
 use App\Models\SupporterApplication;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
-uses(RefreshDatabase::class);
 
 test('login and registration pages render real protected post forms', function () {
     $this->get('/apoiadores/entrar')->assertOk()->assertSee('name="password"', false)->assertSee('method="POST"', false)->assertDontSee('Explorar painel de demonstração');

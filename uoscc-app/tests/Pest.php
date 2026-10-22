@@ -1,7 +1,7 @@
 <?php
 
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 /*
@@ -16,7 +16,7 @@ use Tests\TestCase;
 */
 
 pest()->extend(TestCase::class)
-    ->use(RefreshDatabase::class)
+    ->use(DatabaseMigrations::class)
     ->beforeEach(fn () => $this->seed(DatabaseSeeder::class))
     ->in('Feature');
 

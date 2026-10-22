@@ -9,7 +9,7 @@
             <div>
                 <p class="text-sm font-bold text-emerald-200">{{ $organizacao['area'] }}</p>
                 <h1 class="mt-2 text-3xl font-black sm:text-4xl">{{ $organizacao['nome'] }}</h1>
-                <p class="mt-3 text-emerald-100">{{ $organizacao['regiao'] }} · Camaçari, Bahia</p>
+                <p class="mt-3 text-emerald-100">Camaçari, Bahia</p>
             </div>
         </div>
     </div>
@@ -66,7 +66,6 @@
             <dl class="mt-5 space-y-5 text-sm">
                 <div><dt class="font-bold">E-mail oficial</dt><dd class="mt-1 break-words text-slate-600 dark:text-slate-300">{{ $organizacao['email'] ? 'A confirmar com a equipe' : 'Ainda não informado' }}</dd></div>
                 <div><dt class="font-bold">Telefone oficial</dt><dd class="mt-1 text-slate-600 dark:text-slate-300">{{ $organizacao['telefone'] ? 'A confirmar com a equipe' : 'Ainda não informado' }}</dd></div>
-                <div><dt class="font-bold">Região de atuação</dt><dd class="mt-1 text-slate-600 dark:text-slate-300">{{ $organizacao['regiao'] }}</dd></div>
             </dl>
             <h3 class="mt-8 font-bold">Redes sociais</h3>
             @if(count($organizacao['redes_sociais']) > 0)
