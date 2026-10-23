@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Osc;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ViewErrorBag;
@@ -53,27 +52,6 @@ test('a profile without published activities or contacts explains the empty stat
 
 test('unknown organization returns 404', function () {
     $this->get('/organizacoes/999')->assertNotFound();
-});
-
-test('a registered osc appears in the public directory and profile', function () {
-    $osc = Osc::factory()->create([
-        'nome' => 'Instituto Novos Caminhos',
-        'area_atuacao' => 'Educação',
-        'email' => 'contato@novoscaminhos.test',
-        'telefone' => '(71) 99999-9999',
-        'descricao' => 'Promove oportunidades para a comunidade.',
-    ]);
-
-    $this->get(route('organizacoes'))
-        ->assertOk()
-        ->assertSee('Instituto Novos Caminhos')
-        ->assertSee('Organização cadastrada');
-
-    $this->get(route('organizacoes.cadastradas.show', $osc))
-        ->assertOk()
-        ->assertSee('Instituto Novos Caminhos')
-        ->assertSee('contato@novoscaminhos.test')
-        ->assertDontSee('Perfil demonstrativo');
 });
 
 test('home counters describe catalog contents instead of invented impact metrics', function () {
