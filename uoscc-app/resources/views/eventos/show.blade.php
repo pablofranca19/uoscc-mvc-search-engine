@@ -3,7 +3,7 @@
 @section('content')
 @php
     $isProject = ($evento['natureza'] ?? 'evento') === 'projeto';
-    $status = \App\ActivityRegistration::status($evento);
+    $status = \App\Support\ActivityRegistration::status($evento);
     $remaining = max(0, $evento['vagas'] - $evento['inscritos']);
     $statusLabel = ['aberta' => 'Inscrições abertas', 'encerrada' => 'Inscrições encerradas', 'esgotada' => 'Vagas esgotadas'][$status];
 @endphp

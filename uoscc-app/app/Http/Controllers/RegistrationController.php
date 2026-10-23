@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\ActivityRegistration;
 use App\Http\Requests\StoreRegistrationRequest;
 use App\Models\Activity;
-use App\Models\Registration;
+use App\Support\ActivityRegistration;
 use App\Support\ViewPresenters;
 use Illuminate\Http\RedirectResponse;
 

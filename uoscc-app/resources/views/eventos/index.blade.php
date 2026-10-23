@@ -54,7 +54,7 @@
     <noscript><p>Ative o JavaScript para usar os filtros. Todas as atividades estão listadas abaixo.</p></noscript>
     <div class="mt-5 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         @foreach($eventos as $evento)
-            <div data-activity data-registration="{{ \App\ActivityRegistration::status($evento) }}" data-organization="{{ $evento['organizacao'] }}" data-type="{{ $evento['tipo'] }}" data-region="{{ $evento['regiao'] }}" data-date="{{ $evento['data'] }}" data-kind="{{ $evento['natureza'] ?? 'evento' }}" data-search="{{ $evento['titulo'].' '.$evento['organizacao'].' '.$evento['descricao'].' '.$evento['local'].' '.$evento['regiao'].' '.$evento['tipo'] }}">
+            <div data-activity data-registration="{{ \App\Support\ActivityRegistration::status($evento) }}" data-organization="{{ $evento['organizacao'] }}" data-type="{{ $evento['tipo'] }}" data-region="{{ $evento['regiao'] }}" data-date="{{ $evento['data'] }}" data-kind="{{ $evento['natureza'] ?? 'evento' }}" data-search="{{ $evento['titulo'].' '.$evento['organizacao'].' '.$evento['descricao'].' '.$evento['local'].' '.$evento['regiao'].' '.$evento['tipo'] }}">
                 <x-event-card :evento="$evento" />
             </div>
         @endforeach

@@ -2,7 +2,7 @@
 @php
     $data = \Carbon\Carbon::parse($evento['data'])->locale('pt_BR');
     $restantes = max(0, $evento['vagas'] - $evento['inscritos']);
-    $statusInscricao = \App\ActivityRegistration::status($evento);
+    $statusInscricao = \App\Support\ActivityRegistration::status($evento);
 @endphp
 <article class="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
     <div class="relative min-h-40 overflow-hidden bg-gradient-to-br from-uoscc-primary via-emerald-500 to-uoscc-dark p-6 text-white">
