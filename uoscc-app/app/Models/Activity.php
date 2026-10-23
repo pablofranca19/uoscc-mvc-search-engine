@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Activity extends Model
 {
@@ -77,6 +78,16 @@ class Activity extends Model
     public function registrations(): HasMany
     {
         return $this->hasMany(Registration::class);
+    }
+
+    /**
+     * Supporter favorites pointing at this activity.
+     *
+     * @return MorphMany<SupporterFavorite, $this>
+     */
+    public function favorites(): MorphMany
+    {
+        return $this->morphMany(SupporterFavorite::class, 'favoritable');
     }
 
     /**

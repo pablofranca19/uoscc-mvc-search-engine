@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Organization extends Model
 {
@@ -74,5 +75,15 @@ class Organization extends Model
     public function spaces(): HasMany
     {
         return $this->hasMany(Space::class);
+    }
+
+    /**
+     * Supporter favorites pointing at this organization.
+     *
+     * @return MorphMany<SupporterFavorite, $this>
+     */
+    public function favorites(): MorphMany
+    {
+        return $this->morphMany(SupporterFavorite::class, 'favoritable');
     }
 }
