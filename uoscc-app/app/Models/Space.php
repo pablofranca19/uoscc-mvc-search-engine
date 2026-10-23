@@ -63,12 +63,21 @@ class Space extends Model
 
     /**
      * Determine whether the space has no approved reservation on the given date.
+     *
+     * Pass $lockForUpdate when the answer decides a write inside a
+     * transaction, so two concurrent approvals cannot both see the date as
+     * free.
      */
-    public function isAvailableOn(string $requestedDate): bool
+    public function isAvailableOn(string $requestedDate, bool $lockForUpdate = false): bool
     {
-        return ! $this->reservations()
-            ->where('requested_date', $requestedDate)
-            ->where('status', ReservationStatus::Approved)
-            ->exists();
+        $query = $this->reservations()
+            ->whereDate('requested_date', $requestedDate)
+            ->where('status', ReservationStatus::Approved);
+
+        if ($lockForUpdate) {
+            $query->lockForUpdate();
+        }
+
+        return ! $query->exists();
     }
 }

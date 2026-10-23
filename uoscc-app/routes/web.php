@@ -28,6 +28,21 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/organizacoes/perfil', [OrganizationProfileController::class, 'show'])->name('organizacoes.perfil');
     Route::get('/espacos/cadastro', [SpaceController::class, 'create'])->name('espacos.create');
 
+    Route::get('/espacos/{id}/reservas', [SpaceReservationController::class, 'show'])
+        ->whereNumber('id')
+        ->name('espacos.reservas');
+    Route::post('/espacos/{id}/reservas/{reservation}/aprovar', [SpaceReservationController::class, 'approve'])
+        ->whereNumber(['id', 'reservation'])
+        ->name('espacos.reservas.aprovar');
+    Route::post('/espacos/{id}/reservas/{reservation}/recusar', [SpaceReservationController::class, 'reject'])
+        ->whereNumber(['id', 'reservation'])
+        ->name('espacos.reservas.recusar');
+
+    Route::get('/usuarios/{id}', [UserController::class, 'show'])
+        ->whereNumber('id')
+        ->name('users.show');
+    Route::post('/usuarios', [UserController::class, 'store'])->name('users.store');
+
     Route::get('/apoiadores', [SupporterDashboardController::class, 'index'])->name('apoiadores');
     Route::put('/apoiadores/perfil', [SupporterDashboardController::class, 'updateProfile'])->name('apoiadores.perfil');
     Route::post('/apoiadores/favoritos/{type}/{id}', [SupporterDashboardController::class, 'toggleFavorite'])->name('apoiadores.favoritos');
@@ -59,14 +74,6 @@ Route::post('/espacos', [SpaceController::class, 'store'])->name('espacos.store'
 Route::get('/espacos/{id}', [SpaceController::class, 'show'])
     ->whereNumber('id')
     ->name('espacos.show');
-Route::get('/espacos/{id}/reservas', [SpaceReservationController::class, 'show'])
-    ->whereNumber('id')
-    ->name('espacos.reservas');
 Route::post('/espacos/{id}/reserva', [SpaceReservationController::class, 'store'])
     ->whereNumber('id')
     ->name('espacos.reserva');
-
-Route::post('/usuarios', [UserController::class, 'store'])->name('users.store');
-Route::get('/usuarios/{id}', [UserController::class, 'show'])
-    ->whereNumber('id')
-    ->name('users.show');

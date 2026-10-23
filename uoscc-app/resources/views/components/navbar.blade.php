@@ -55,6 +55,17 @@
                 </a>
             </li>
         @endforeach
+        @auth
+            <li>
+                <a href="{{ route('users.show', auth()->id()) }}" @if(request()->routeIs('users.show')) aria-current="page" @endif @class([
+                    'block rounded-xl px-4 py-3 text-base font-semibold transition',
+                    'bg-emerald-50 text-uoscc-dark dark:bg-slate-800 dark:text-uoscc-light' => request()->routeIs('users.show'),
+                    'text-slate-600 hover:bg-slate-50 hover:text-uoscc-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white' => ! request()->routeIs('users.show'),
+                ])>
+                    Minha conta
+                </a>
+            </li>
+        @endauth
     </ul>
 
     <a href="{{ route('eventos') }}" class="mt-6 block rounded-xl bg-uoscc-primary px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-emerald-900/10 transition hover:bg-uoscc-dark">Participar</a>

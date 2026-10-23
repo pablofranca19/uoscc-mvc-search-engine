@@ -57,6 +57,36 @@
                     @endforelse
                 </div>
             </section>
+
+            <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:shadow-slate-950/30 sm:p-8">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <p class="eyebrow">Espaços</p>
+                        <h2 class="mt-2 text-2xl font-black text-slate-900 dark:text-white">Solicitações de reserva</h2>
+                    </div>
+                    <a href="{{ route('espacos.create') }}" class="text-sm font-bold text-uoscc-primary dark:text-emerald-300">Novo espaço →</a>
+                </div>
+                <div class="mt-6 space-y-4">
+                    @forelse($spaces as $space)
+                        <article class="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-200 p-5 dark:border-slate-700 dark:bg-slate-800/60">
+                            <div>
+                                <h3 class="font-black text-slate-900 dark:text-white">{{ $space->name }}</h3>
+                                <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                                    {{ $space->reservations_count }} {{ $space->reservations_count === 1 ? 'solicitação' : 'solicitações' }}
+                                    @if($space->pending_reservations_count > 0)
+                                        · <span class="font-bold text-amber-700 dark:text-amber-300">{{ $space->pending_reservations_count }} aguardando análise</span>
+                                    @endif
+                                </p>
+                            </div>
+                            <a href="{{ route('espacos.reservas', $space->id) }}" class="rounded-xl border border-emerald-300 px-5 py-3 text-sm font-bold text-emerald-900 transition hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-200 dark:hover:bg-slate-800">Analisar reservas</a>
+                        </article>
+                    @empty
+                        <div class="rounded-2xl border border-dashed border-slate-300 p-6 text-sm leading-6 text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                            Cadastre um espaço para receber solicitações de reserva da comunidade.
+                        </div>
+                    @endforelse
+                </div>
+            </section>
         </div>
 
         <aside class="space-y-6">

@@ -21,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('space_reservations');
+        Schema::table('space_reservations', function (Blueprint $table) {
+            $table->dropColumn('purpose');
+        });
     }
 };

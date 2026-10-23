@@ -25,7 +25,7 @@
             <h2 class="font-bold text-slate-900 dark:text-white">Como será a solicitação?</h2>
             <ol class="mt-4 list-inside list-decimal space-y-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
                 <li>Informe a data desejada e a finalidade.</li>
-                <li>Na versão integrada, a OSC deverá analisar a disponibilidade e as condições.</li>
+                <li>A OSC responsável analisa a solicitação e aprova ou recusa a data.</li>
                 <li>Aguarde uma confirmação antes de considerar o espaço reservado.</li>
             </ol>
         </div>

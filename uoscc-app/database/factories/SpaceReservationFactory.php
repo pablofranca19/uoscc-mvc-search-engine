@@ -24,6 +24,7 @@ class SpaceReservationFactory extends Factory
             'requester_name' => fake()->name(),
             'requester_contact' => fake()->safeEmail(),
             'requested_date' => fake()->dateTimeBetween('+1 day', '+1 month'),
+            'purpose' => fake()->sentence(12),
             'status' => ReservationStatus::Pending,
         ];
     }
