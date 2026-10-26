@@ -6,6 +6,7 @@ use App\ActivityRegistration;
 use App\Http\Requests\StoreRegistrationRequest;
 use App\Models\Activity;
 use App\Models\Registration;
+use App\Models\User;
 use App\Support\ViewPresenters;
 use Illuminate\Http\RedirectResponse;
 
@@ -29,17 +30,18 @@ class RegistrationController extends Controller
             ->withCount('registrations')
             ->findOrFail($id);
 
-        if (ActivityRegistration::status(ViewPresenters::activity($activity)) !== 'aberta') {
-            return redirect()
-                ->route('eventos.show', $id)
-                ->withErrors(['inscricao' => 'As inscrições desta atividade estão encerradas ou as vagas estão esgotadas.']);
-        }
-
         $email = (string) $request->validated('email');
 
         $alreadyRegistered = $activity->registrations()
             ->where('participant_contact', $email)
             ->exists();
+
+
+        if (ActivityRegistration::status(ViewPresenters::activity($activity)) !== 'aberta') {
+            return redirect()
+                ->route('eventos.show', $id)
+                ->withErrors(['inscricao' => 'As inscrições desta atividade estão encerradas ou as vagas estão esgotadas.']);
+        }
 
         if ($alreadyRegistered) {
             return redirect()
