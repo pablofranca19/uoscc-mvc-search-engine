@@ -36,7 +36,7 @@ class SupporterAuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('apoiadores')->with('success', 'Conta criada. Complete seu perfil para aproveitar as oportunidades.');
+        return redirect()->intended(route('apoiadores'))->with('success', 'Conta criada. Complete seu perfil para aproveitar as oportunidades.');
     }
 
     public function login(): View
