@@ -8,11 +8,12 @@
             <p class="eyebrow text-emerald-300">Área do apoiador</p>
             <h1 class="mt-3 max-w-3xl text-3xl font-black sm:text-5xl">Seu impacto, em um só lugar.</h1>
             <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">Salve iniciativas, acompanhe participações, encontre oportunidades compatíveis e consulte seus certificados.</p>
-            @if (auth()->user()->isOrganizationManager())
-                <div class="mt-7">
+            <div class="mt-7 flex flex-wrap gap-3">
+                <a class="rounded-xl border border-emerald-300 px-5 py-3 text-sm font-bold text-emerald-900 hover:bg-white dark:border-white/30 dark:text-white dark:hover:bg-white/10" href="{{ route('apoiadores.reservas') }}">Minhas reservas de espaços</a>
+                @if (auth()->user()->isOrganizationManager())
                     <a class="rounded-xl border border-emerald-300 px-5 py-3 text-sm font-bold text-emerald-900 hover:bg-white dark:border-white/30 dark:text-white dark:hover:bg-white/10" href="{{ route('eventos.create') }}">Cadastrar evento ou projeto</a>
-                </div>
-            @endif
+                @endif
+            </div>
         </div>
     </section>
 
