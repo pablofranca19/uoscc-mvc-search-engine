@@ -123,12 +123,13 @@ test('the public form refuses a date that already has an approved reservation', 
         'requested_date' => '2026-11-10',
     ]);
 
-    $this->from(route('espacos.show', 1))->post(route('espacos.reserva', 1), [
-        'nome' => 'Pessoa de Teste',
-        'email' => 'teste@example.com',
-        'data' => '2026-11-10',
-        'finalidade' => 'Oficina de leitura para a comunidade.',
-    ])
+    $this->actingAs(User::factory()->supporter()->create())
+        ->from(route('espacos.show', 1))->post(route('espacos.reserva', 1), [
+            'nome' => 'Pessoa de Teste',
+            'email' => 'teste@example.com',
+            'data' => '2026-11-10',
+            'finalidade' => 'Oficina de leitura para a comunidade.',
+        ])
         ->assertRedirect(route('espacos.show', 1))
         ->assertSessionHasErrors('data')
         ->assertSessionMissing('success');
