@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRegistrationRequest;
 use App\Models\Activity;
 use App\Support\ActivityRegistration;
+use App\Support\GuestAuthenticationRedirect;
 use App\Support\ViewPresenters;
 use Illuminate\Http\RedirectResponse;
 
@@ -15,6 +16,7 @@ class RegistrationController extends Controller
      *
      * Field validation lives in StoreRegistrationRequest; this method owns the
      * registration business rules and persistence:
+     *   0. Send guests to sign in (existing account) or sign up (no account).
      *   1. Load the activity by id (404 if missing).
      *   2. Reject the request when registration is not open (deadline passed or
      *      no spots left), redirecting back with an 'inscricao' error.
@@ -23,6 +25,15 @@ class RegistrationController extends Controller
      */
     public function store(StoreRegistrationRequest $request, int $id): RedirectResponse
     {
+        if ($request->user() === null) {
+            return GuestAuthenticationRedirect::to(
+                route('eventos.show', $id),
+                (string) $request->validated('nome'),
+                (string) $request->validated('email'),
+                'sua inscrição',
+            );
+        }
+
         $activity = Activity::query()
             ->with(['organization', 'space.location'])
             ->withCount('registrations')
