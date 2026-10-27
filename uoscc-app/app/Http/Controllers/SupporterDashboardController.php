@@ -40,6 +40,19 @@ class SupporterDashboardController extends Controller
         ]);
     }
 
+    public function reservations(Request $request): View
+    {
+        $reservas = $request->user()->spaceReservations()
+            ->with('space.organization')
+            ->latest('requested_date')
+            ->get();
+
+        return view('apoiadores.reservas', [
+            'reservas' => $reservas,
+            'mensagem' => $reservas->isEmpty() ? 'Você ainda não fez nenhuma reserva de espaço.' : null,
+        ]);
+    }
+
     public function updateProfile(Request $request): RedirectResponse
     {
         $profile = $request->validate([
