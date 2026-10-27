@@ -6,6 +6,7 @@ use App\Enums\ReservationStatus;
 use App\Http\Requests\StoreSpaceReservationRequest;
 use App\Models\Space;
 use App\Models\SpaceReservation;
+use App\Support\GuestAuthenticationRedirect;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,6 +32,15 @@ class SpaceReservationController extends Controller
 
     public function store(StoreSpaceReservationRequest $request, int $id): RedirectResponse
     {
+        if ($request->user() === null) {
+            return GuestAuthenticationRedirect::to(
+                route('espacos.show', $id),
+                (string) $request->validated('nome'),
+                (string) $request->validated('email'),
+                'sua solicitação de reserva',
+            );
+        }
+
         $space = Space::query()->findOrFail($id);
         $requestedDate = (string) $request->validated('data');
 
@@ -42,6 +52,7 @@ class SpaceReservationController extends Controller
         }
 
         $space->reservations()->create([
+            'user_id' => $request->user()->id,
             'requester_name' => $request->validated('nome'),
             'requester_contact' => $request->validated('email'),
             'requested_date' => $requestedDate,
@@ -49,7 +60,7 @@ class SpaceReservationController extends Controller
         ]);
 
         return redirect()
-            ->route('espacos.show', $id)
+            ->route('apoiadores.reservas')
             ->with('success', 'Solicitação enviada! A organização responsável vai analisar a disponibilidade e entrar em contato.');
     }
 
