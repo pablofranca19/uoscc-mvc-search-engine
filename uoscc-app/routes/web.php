@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/usuarios', [UserController::class, 'store'])->name('users.store');
 
     Route::get('/apoiadores', [SupporterDashboardController::class, 'index'])->name('apoiadores');
+    Route::get('/apoiadores/reservas', [SupporterDashboardController::class, 'reservations'])->name('apoiadores.reservas');
     Route::put('/apoiadores/perfil', [SupporterDashboardController::class, 'updateProfile'])->name('apoiadores.perfil');
     Route::post('/apoiadores/favoritos/{type}/{id}', [SupporterDashboardController::class, 'toggleFavorite'])->name('apoiadores.favoritos');
     Route::post('/apoiadores/inscricoes/{type}/{id}', [SupporterDashboardController::class, 'register'])->name('apoiadores.inscricoes');
