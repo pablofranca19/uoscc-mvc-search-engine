@@ -18,6 +18,7 @@ class SpaceReservation extends Model
      */
     protected $fillable = [
         'space_id',
+        'user_id',
         'requester_name',
         'requester_contact',
         'requested_date',
@@ -42,6 +43,14 @@ class SpaceReservation extends Model
     public function space(): BelongsTo
     {
         return $this->belongsTo(Space::class);
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
