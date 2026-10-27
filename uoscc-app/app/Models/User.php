@@ -74,6 +74,16 @@ class User extends Authenticatable
     }
 
     /**
+     * The space reservation requests made by this user while authenticated.
+     *
+     * @return HasMany<SpaceReservation, $this>
+     */
+    public function spaceReservations(): HasMany
+    {
+        return $this->hasMany(SpaceReservation::class);
+    }
+
+    /**
      * Whether this user is a supporter and may create and manage records.
      */
     public function isSupporter(): bool
