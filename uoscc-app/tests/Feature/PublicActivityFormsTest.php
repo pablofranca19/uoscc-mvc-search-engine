@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Registration;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 
 beforeEach(function () {
@@ -23,6 +24,8 @@ test('public activity pages show open closed and full registration states', func
 ]);
 
 test('a valid registration is persisted and confirmed', function () {
+    $this->actingAs(User::factory()->supporter()->create());
+
     $response = $this->post('/eventos/1/inscricao', ['nome' => 'Pessoa de Teste', 'email' => 'teste@example.com']);
 
     $response->assertRedirectToRoute('eventos.show', 1)
@@ -38,6 +41,8 @@ test('a valid registration is persisted and confirmed', function () {
 });
 
 test('a duplicate registration for the same activity is rejected', function () {
+    $this->actingAs(User::factory()->supporter()->create());
+
     $this->post('/eventos/1/inscricao', ['nome' => 'Pessoa de Teste', 'email' => 'teste@example.com']);
 
     $response = $this->post('/eventos/1/inscricao', ['nome' => 'Outro Nome', 'email' => 'teste@example.com']);
@@ -59,6 +64,8 @@ test('invalid registration data returns errors and preserves input', function ()
 });
 
 test('an unavailable activity rejects a direct registration post', function (int $id) {
+    $this->actingAs(User::factory()->supporter()->create());
+
     $response = $this->post('/eventos/'.$id.'/inscricao', ['nome' => 'Pessoa de Teste', 'email' => 'teste@example.com']);
 
     $response->assertRedirectToRoute('eventos.show', $id)
@@ -67,6 +74,8 @@ test('an unavailable activity rejects a direct registration post', function (int
 })->with([3, 4]);
 
 test('registration remains open through the final second of the deadline in Bahia', function () {
+    $this->actingAs(User::factory()->supporter()->create());
+
     $this->travelTo(Carbon::parse('2026-10-23 23:59:59', 'America/Bahia'));
 
     $this->post('/eventos/1/inscricao', ['nome' => 'Pessoa de Teste', 'email' => 'teste@example.com'])
@@ -74,10 +83,43 @@ test('registration remains open through the final second of the deadline in Bahi
 });
 
 test('registration closes at midnight after the deadline in Bahia', function () {
+    $this->actingAs(User::factory()->supporter()->create());
+
     $this->travelTo(Carbon::parse('2026-10-24 00:00:00', 'America/Bahia'));
 
     $this->post('/eventos/1/inscricao', ['nome' => 'Pessoa de Teste', 'email' => 'teste@example.com'])
         ->assertSessionHasErrors('inscricao')->assertSessionMissing('success');
+});
+
+test('a guest without an account is sent to sign up and returns to the activity afterwards', function () {
+    $this->post('/eventos/1/inscricao', ['nome' => 'Pessoa de Teste', 'email' => 'nova@example.com'])
+        ->assertRedirectToRoute('apoiadores.cadastro')
+        ->assertSessionHasInput('name', 'Pessoa de Teste')
+        ->assertSessionHasInput('email', 'nova@example.com')
+        ->assertSessionHas('url.intended', route('eventos.show', 1));
+
+    $this->assertDatabaseMissing('registrations', ['participant_contact' => 'nova@example.com']);
+
+    $this->post(route('apoiadores.cadastro.store'), [
+        'name' => 'Pessoa de Teste',
+        'email' => 'nova@example.com',
+        'password' => 'senha-segura',
+        'password_confirmation' => 'senha-segura',
+    ])->assertRedirect(route('eventos.show', 1));
+});
+
+test('a guest with an existing account is sent to sign in and returns to the activity afterwards', function () {
+    $user = User::factory()->supporter()->create(['email' => 'maria@example.com']);
+
+    $this->post('/eventos/1/inscricao', ['nome' => 'Maria da Silva', 'email' => 'maria@example.com'])
+        ->assertRedirectToRoute('login')
+        ->assertSessionHasInput('email', 'maria@example.com')
+        ->assertSessionHas('url.intended', route('eventos.show', 1));
+
+    $this->assertDatabaseMissing('registrations', ['participant_contact' => 'maria@example.com']);
+
+    $this->post(route('apoiadores.login'), ['email' => $user->email, 'password' => 'password'])
+        ->assertRedirect(route('eventos.show', 1));
 });
 
 test('project details identify the content as a project', function () {
@@ -85,18 +127,21 @@ test('project details identify the content as a project', function () {
 });
 
 test('a valid reservation is persisted as pending for today or a future day', function (string $date) {
-    $response = $this->post('/espacos/1/reserva', [
+    $user = User::factory()->supporter()->create();
+
+    $response = $this->actingAs($user)->post('/espacos/1/reserva', [
         'nome' => 'Pessoa de Teste', 'email' => 'teste@example.com',
         'data' => $date, 'finalidade' => 'Oficina de leitura para a comunidade.',
     ]);
 
-    $response->assertRedirectToRoute('espacos.show', 1)
+    $response->assertRedirectToRoute('apoiadores.reservas')
         ->assertSessionHasNoErrors()
         ->assertSessionHas('success', 'Solicitação enviada! A organização responsável vai analisar a disponibilidade e entrar em contato.')
         ->assertSessionMissing('demo');
 
     $this->assertDatabaseHas('space_reservations', [
         'space_id' => 1,
+        'user_id' => $user->id,
         'requester_name' => 'Pessoa de Teste',
         'requester_contact' => 'teste@example.com',
         'requested_date' => $date.' 00:00:00',
