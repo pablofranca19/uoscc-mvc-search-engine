@@ -1,4 +1,4 @@
-# UOSCC
+# MyREDCAM
 
 UOSCC is a web platform that connects civil society organizations (OSCs, from the Portuguese *Organizações da Sociedade Civil*) with people who want to take part in their events and projects. The interface is in Brazilian Portuguese.
 
