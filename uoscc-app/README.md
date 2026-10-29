@@ -150,6 +150,10 @@ Space 1 ── n SpaceReservation        SpaceReservation n ── 1 User (optio
 User 1 ── n SupporterFavorite        SupporterFavorite ── Organization | Activity (polymorphic)
 ```
 
+### Class diagram
+
+![img.png](img.png)
+
 ### Tables
 
 **organizations**
