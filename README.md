@@ -378,17 +378,6 @@ The seeder creates no user accounts. Create a supporter through `/apoiadores/cad
 
 Do not commit the `.env` file. It holds credentials.
 
-## Testing
-
-Tests use Pest and an in-memory SQLite database (see `phpunit.xml`).
-
-```bash
-php artisan test --compact                       # full suite
-php artisan test --compact tests/Feature/SupporterDashboardTest.php
-php artisan test --compact --filter="reservation"
-composer test                                    # clears the config cache, then runs the suite
-```
-
 Feature tests are in `tests/Feature`:
 
 | File | Covers |
