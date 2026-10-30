@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cadastrar espaço — UOSCC')
+@section('title', 'Cadastrar espaço')
 
 @section('content')
     <section class="section-shell py-14 sm:py-20">

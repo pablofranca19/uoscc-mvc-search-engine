@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Acesso de apoiadores — UOSCC')
+@section('title', 'Acesso de apoiadores')
 @section('content')
 <section class="section-shell py-14 sm:py-20">
     <p class="eyebrow">Entenda os acessos</p>

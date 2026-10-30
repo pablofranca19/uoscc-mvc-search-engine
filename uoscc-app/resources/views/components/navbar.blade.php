@@ -9,7 +9,7 @@
                 </svg>
             </span>
             <span>
-                <span class="block text-lg font-black tracking-tight text-uoscc-dark dark:text-uoscc-light">UOSCC</span>
+                <span class="block text-lg font-black tracking-tight text-uoscc-dark dark:text-uoscc-light">MyREDCAM</span>
                 <span class="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 sm:block dark:text-slate-400">Sociedade civil</span>
             </span>
         </a>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Espaços — UOSCC')
+@section('title', 'Espaços')
 @section('content')
 <section class="section-shell py-14 sm:py-20" data-discovery>
     <p class="eyebrow">Infraestrutura compartilhada</p>

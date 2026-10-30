@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $evento['titulo'].' — UOSCC')
+@section('title', $evento['titulo'])
 @section('content')
     @php
         $isProject = ($evento['natureza'] ?? 'evento') === 'projeto';

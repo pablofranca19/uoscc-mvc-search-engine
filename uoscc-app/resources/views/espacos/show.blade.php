@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $espaco['nome'].' — UOSCC')
+@section('title', $espaco['nome'])
 @section('content')
 <section class="bg-emerald-50 py-14 text-slate-900 dark:bg-slate-950 dark:text-white sm:py-20">
     <div class="section-shell">

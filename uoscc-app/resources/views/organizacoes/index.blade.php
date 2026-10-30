@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Organizações — UOSCC')
+@section('title', 'Organizações')
 @section('content')
 <section class="section-shell py-14 sm:py-20" data-discovery>
     <p class="eyebrow">Rede UOSCC</p>

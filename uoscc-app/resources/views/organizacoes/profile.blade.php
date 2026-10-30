@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Painel da OSC — UOSCC')
+@section('title', 'Painel da OSC')
 
 @section('content')
     <section class="bg-emerald-50 py-14 text-slate-900 dark:bg-slate-950 dark:text-white sm:py-20">

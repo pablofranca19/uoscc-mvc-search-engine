@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Painel do apoiador — UOSCC')
+@section('title', 'Painel do apoiador')
 
 @section('content')
     <section class="bg-emerald-50 py-14 text-slate-900 dark:bg-slate-950 dark:text-white sm:py-20">

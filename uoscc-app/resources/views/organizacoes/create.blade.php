@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cadastre sua OSC — UOSCC')
+@section('title', 'Cadastre sua OSC')
 
 @section('content')
     <section class="relative overflow-hidden bg-emerald-50 py-14 sm:py-20 dark:bg-slate-950">

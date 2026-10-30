@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'UOSCC — Início')
+@section('title', 'Início')
 @section('content')
 <section class="relative overflow-hidden bg-slate-950">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(47,158,89,.35),transparent_35%),radial-gradient(circle_at_90%_80%,rgba(108,194,142,.18),transparent_30%)]"></div>

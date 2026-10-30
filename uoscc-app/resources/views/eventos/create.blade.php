@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cadastrar evento — UOSCC')
+@section('title', 'Cadastrar evento')
 
 @section('content')
     <section class="section-shell py-14 sm:py-20">
