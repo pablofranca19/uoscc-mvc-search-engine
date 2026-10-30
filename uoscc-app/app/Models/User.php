@@ -3,15 +3,26 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRole;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable([
+    'name',
+    'email',
+    'password',
+    'organization_id',
+    'role',
+    'supporter_skills',
+    'supporter_interests',
+    'supporter_availability',
+])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -28,17 +39,73 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_supporter_admin' => 'boolean',
+            'role' => UserRole::class,
         ];
     }
 
-    public function supporterApplication(): HasOne
+    /**
+     * The organization this user (supporter) belongs to, if any.
+     *
+     * @return BelongsTo<Organization, $this>
+     */
+    public function organization(): BelongsTo
     {
-        return $this->hasOne(SupporterApplication::class);
+        return $this->belongsTo(Organization::class);
     }
 
-    public function hasApprovedSupporterAccess(): bool
+    /**
+     * The favorites (organizations and activities) saved by this supporter.
+     *
+     * @return HasMany<SupporterFavorite, $this>
+     */
+    public function favorites(): HasMany
     {
-        return $this->supporterApplication()->where('status', 'approved')->exists();
+        return $this->hasMany(SupporterFavorite::class);
+    }
+
+    /**
+     * The activity registrations made by this supporter while authenticated.
+     *
+     * @return HasMany<Registration, $this>
+     */
+    public function registrations(): HasMany
+    {
+        return $this->hasMany(Registration::class);
+    }
+
+    /**
+     * The space reservation requests made by this user while authenticated.
+     *
+     * @return HasMany<SpaceReservation, $this>
+     */
+    public function spaceReservations(): HasMany
+    {
+        return $this->hasMany(SpaceReservation::class);
+    }
+
+    /**
+     * Whether this user is a supporter and may create and manage records.
+     */
+    public function isSupporter(): bool
+    {
+        return $this->role === UserRole::Supporter;
+    }
+
+    /**
+     * Whether this user is responsible for an organization.
+     */
+    public function isOrganizationManager(): bool
+    {
+        return $this->role === UserRole::OrganizationManager;
+    }
+
+    /**
+     * Whether this user can manage the given organization. Only a supporter
+     * that belongs to the organization may manage it.
+     */
+    public function canManage(Organization $organization): bool
+    {
+        return $this->isOrganizationManager()
+            && $this->organization_id === $organization->id;
     }
 }

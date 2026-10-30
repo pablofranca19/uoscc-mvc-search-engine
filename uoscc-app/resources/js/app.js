@@ -73,14 +73,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('[data-form-errors]')?.focus();
 
     document.querySelectorAll('[data-password-toggle]').forEach((toggle) => {
-        const field = document.getElementById(toggle.dataset.passwordToggle);
-        if (!field) return;
-        toggle.hidden = false;
+        const inputs = toggle.dataset.passwordToggle
+            .split(' ')
+            .map((id) => document.getElementById(id))
+            .filter(Boolean);
+
         toggle.addEventListener('click', () => {
-            const show = field.type === 'password';
-            field.type = show ? 'text' : 'password';
-            toggle.textContent = show ? 'Ocultar senha' : 'Mostrar senha';
-            toggle.setAttribute('aria-pressed', String(show));
+            const shouldShowPassword = inputs[0]?.type === 'password';
+            inputs.forEach((input) => {
+                input.type = shouldShowPassword ? 'text' : 'password';
+            });
+            const action = shouldShowPassword ? 'Ocultar' : 'Mostrar';
+            const noun = inputs.length > 1 ? 'senhas' : 'senha';
+            toggle.setAttribute('aria-label', `${action} ${noun}`);
+            toggle.setAttribute('title', `${action} ${noun}`);
+            toggle.querySelector('[data-password-icon="hidden"]')?.classList.toggle('hidden', shouldShowPassword);
+            toggle.querySelector('[data-password-icon="visible"]')?.classList.toggle('hidden', !shouldShowPassword);
         });
     });
 
@@ -167,5 +175,18 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             counters.forEach(runCounter);
         }
+    }
+    const locationSelect = document.querySelector('[data-other-location]');
+    const otherLocationField = document.querySelector('[data-other-location-field]');
+
+    if (locationSelect && otherLocationField) {
+        const updateOtherLocationField = () => {
+            const isOtherLocation = locationSelect.value === 'Outra região';
+            otherLocationField.hidden = !isOtherLocation;
+            otherLocationField.querySelector('input').required = isOtherLocation;
+        };
+
+        locationSelect.addEventListener('change', updateOtherLocationField);
+        updateOtherLocationField();
     }
 });

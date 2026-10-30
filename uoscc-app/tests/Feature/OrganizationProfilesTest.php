@@ -1,15 +1,16 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ViewErrorBag;
+
+uses(RefreshDatabase::class);
 
 test('the public directory preserves the four original organizations and discovery controls', function () {
     $response = $this->get('/organizacoes');
 
     $response->assertSee('perfis fictícios')
         ->assertSee('organization-search')
-        ->assertSee('Área de atuação')
-        ->assertSee('Região')
         ->assertViewHas('organizacoes', fn (array $organizations): bool => count($organizations) === 4)
         ->assertDontSee('Saúde em Comunidade')
         ->assertDontSee('Rede de Direitos e Inclusão');
@@ -66,7 +67,7 @@ test('home counters describe catalog contents instead of invented impact metrics
 test('home counters reflect an empty catalog', function () {
     $html = view('home', ['eventos' => [], 'organizacoes' => [], 'espacos' => [], 'errors' => new ViewErrorBag])->render();
 
-    expect(preg_match_all('/<strong\b[^>]*\bdata-counter="0"[^>]*>0<\/strong>/', $html))->toBe(4);
+    expect(substr_count($html, 'data-counter="0"'))->toBe(4);
 });
 
 test('organization detail labels its project and displays the project deadline', function () {

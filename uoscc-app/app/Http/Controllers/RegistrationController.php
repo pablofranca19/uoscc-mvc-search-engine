@@ -1,0 +1,70 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreRegistrationRequest;
+use App\Models\Activity;
+use App\Support\ActivityRegistration;
+use App\Support\GuestAuthenticationRedirect;
+use App\Support\ViewPresenters;
+use Illuminate\Http\RedirectResponse;
+
+class RegistrationController extends Controller
+{
+    /**
+     * Handle an event registration (eventos.inscricao).
+     *
+     * Field validation lives in StoreRegistrationRequest; this method owns the
+     * registration business rules and persistence:
+     *   0. Send guests to sign in (existing account) or sign up (no account).
+     *   1. Load the activity by id (404 if missing).
+     *   2. Reject the request when registration is not open (deadline passed or
+     *      no spots left), redirecting back with an 'inscricao' error.
+     *   3. Reject a duplicate registration (same e-mail for the same activity).
+     *   4. Persist the registration and confirm it via the 'success' flash.
+     */
+    public function store(StoreRegistrationRequest $request, int $id): RedirectResponse
+    {
+        if ($request->user() === null) {
+            return GuestAuthenticationRedirect::to(
+                route('eventos.show', $id),
+                (string) $request->validated('nome'),
+                (string) $request->validated('email'),
+                'sua inscrição',
+            );
+        }
+
+        $activity = Activity::query()
+            ->with(['organization', 'space.location'])
+            ->withCount('registrations')
+            ->findOrFail($id);
+
+        if (ActivityRegistration::status(ViewPresenters::activity($activity)) !== 'aberta') {
+            return redirect()
+                ->route('eventos.show', $id)
+                ->withErrors(['inscricao' => 'As inscrições desta atividade estão encerradas ou as vagas estão esgotadas.']);
+        }
+
+        $email = (string) $request->validated('email');
+
+        $alreadyRegistered = $activity->registrations()
+            ->where('participant_contact', $email)
+            ->exists();
+
+        if ($alreadyRegistered) {
+            return redirect()
+                ->route('eventos.show', $id)
+                ->withErrors(['inscricao' => 'Este e-mail já está inscrito nesta atividade.']);
+        }
+
+        $activity->registrations()->create([
+            'participant_name' => $request->validated('nome'),
+            'participant_contact' => $email,
+            'registered_at' => now(),
+        ]);
+
+        return redirect()
+            ->route('eventos.show', $id)
+            ->with('success', 'Inscrição confirmada! Sua participação foi registrada.');
+    }
+}
